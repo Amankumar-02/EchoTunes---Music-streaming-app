@@ -1,0 +1,61 @@
+import React from "react";
+import "remixicon/fonts/remixicon.css";
+
+function Menu() {
+  return (
+    <div className="w-[25vw] m-2 sticky top-[10px] left-0 h-[100vh]">
+      <div className="homeSection rounded-lg py-4 px-6 bg-[#121212] mb-2">
+        <div className="logo mb-4 text-lg font-semibold cursor-pointer">EchoTunes</div>
+        <ul>
+          <li className="flex gap-4 mb-4 items-center cursor-pointer">
+            <i className="ri-home-4-line text-2xl"></i>
+            <div className="font-semibold hover:underline">Home</div>
+          </li>
+          <li className="flex gap-4 items-center cursor-pointer">
+            <i className="ri-search-line text-2xl"></i>
+            <div className="font-semibold hover:underline">Search</div>
+          </li>
+        </ul>
+      </div>
+      <div className="librarySection rounded-lg py-4 px-2 bg-[#121212]">
+        <div className="flex justify-between items-center mb-4 px-4">
+          <div className="flex gap-4 items-center">
+            <i class="ri-flip-horizontal-line text-2xl"></i>
+            <div className="font-semibold">Your Library</div>
+          </div>
+          <i class="ri-add-line text-xl cursor-pointer"></i>
+        </div>
+        <div className="scroll flex flex-col gap-2 h-[125px] overflow-scroll overflow-x-hidden scroll-smooth">
+          <div className="bg-[#242424] rounded-lg py-4 px-6">
+            <div className="text-sm mb-1 font-semibold">Create your first playlist</div>
+            <p className="text-xs mb-2">It's easy, we'll help you</p>
+            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Create playlist</button>
+          </div>
+          <div className="bg-[#242424] rounded-lg py-4 px-6">
+            <div className="text-sm mb-1 font-semibold">Let’s find some podcasts to follow</div>
+            <p className="text-xs mb-2">We’ll keep you updated on new episodes</p>
+            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Browse podcasts</button>
+          </div>
+        </div>
+        <div className="px-4">
+          <ul className="flex flex-wrap gap-4 text-xs text-gray-400 my-10">
+            <li className="cursor-pointer">Legal</li>
+            <li className="cursor-pointer">Safety & Privacy Center</li>
+            <li className="cursor-pointer">Privacy Policy</li>
+            <li className="cursor-pointer">Cookies</li>
+            <li className="cursor-pointer">About Ads</li>
+            <li className="cursor-pointer">Accessibility</li>
+            <li className="cursor-pointer">Cookies</li>
+          </ul>
+          <div className="flex gap-1 items-center px-3 rounded-3xl border w-fit cursor-pointer">
+          <i class="ri-global-line text-xl"></i>
+          <div className="text-sm font-semibold">English</div>
+          </div>
+        </div>
+      </div>
+      <div className="footerSection"></div>
+    </div>
+  );
+}
+
+export default Menu;
