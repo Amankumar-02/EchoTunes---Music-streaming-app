@@ -3,7 +3,7 @@ import "remixicon/fonts/remixicon.css";
 
 function Menu() {
   return (
-    <div className="w-[25vw] m-2 sticky top-[10px] left-0 h-[100vh]">
+    <div className="w-[25vw] m-2 h-[84vh] overflow-hidden">
       <div className="homeSection rounded-lg py-4 px-6 bg-[#121212] mb-2">
         <div className="logo mb-4 text-lg font-semibold cursor-pointer">EchoTunes</div>
         <ul>
@@ -25,7 +25,7 @@ function Menu() {
           </div>
           <i class="ri-add-line text-xl cursor-pointer"></i>
         </div>
-        <div className="scroll flex flex-col gap-2 h-[125px] overflow-scroll overflow-x-hidden scroll-smooth">
+        <div className="scroll flex flex-col gap-2 h-[110px] overflow-scroll overflow-x-hidden scroll-smooth">
           <div className="bg-[#242424] rounded-lg py-4 px-6">
             <div className="text-sm mb-1 font-semibold">Create your first playlist</div>
             <p className="text-xs mb-2">It's easy, we'll help you</p>
@@ -53,7 +53,6 @@ function Menu() {
           </div>
         </div>
       </div>
-      <div className="footerSection"></div>
     </div>
   );
 }

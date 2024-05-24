@@ -1,4 +1,4 @@
-import {Nav, Menu, Playlist} from './components/index';
+import {Nav, Menu, Playlist, Footer} from './components/index';
 
 function App() {
 
@@ -9,6 +9,7 @@ function App() {
         <Menu/>
         <Playlist/>
       </div>
+      <Footer/>
     </>
   )
 }

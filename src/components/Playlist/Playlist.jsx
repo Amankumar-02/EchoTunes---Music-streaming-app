@@ -3,8 +3,22 @@ import "remixicon/fonts/remixicon.css";
 
 function Playlist() {
   let arr = [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18];
+  let links = [
+    {title: "Company", more: [
+      "About", "Jobs", "For the Record"
+    ]},
+    {title: "Communities", more: [
+      "For Artists", "Developers", "Advertising", "Investors", "Vendors"
+    ]},
+    {title: "Useful links", more: [
+      "Support", "Free Mobile App"
+    ]},
+    {title: "Spotify Plans", more: [
+      "Premium Individual", "Premium Duo", "Premium Family", "Premium Student", "EchoTunes Free"
+    ]},
+  ]
   return (
-    <div className="w-[75vw] m-2 ms-0 bg-[#121212] rounded-lg">
+    <div className="w-[75vw] h-[84vh] overflow-hidden m-2 ms-0 bg-[#121212] rounded-lg">
       <div className="px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="bg-black rounded-full px-1 cursor-pointer">
@@ -23,14 +37,15 @@ function Playlist() {
           </button>
         </div>
       </div>
+      <div className="scroll h-[86%] overflow-scroll overflow-x-hidden">
       <div className="bg-[#1C1C1C] px-6 py-4">
         <h1 className="text-2xl font-bold mt-4">EchoTunes Playlists</h1>
       </div>
       <div className="cards flex flex-wrap bg-[#1C1C1C]">
         {arr.map((item) => (
           <div className="card p-4 hover:bg-[#181818] rounded-lg">
-            <div className="w-[166px]">
-              <div className="relative h-[166px] rounded-lg overflow-hidden">
+            <div className="w-[164px]">
+              <div className="relative h-[164px] rounded-lg overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tfGVufDB8fDB8fHww"
                   alt=""
@@ -52,6 +67,34 @@ function Playlist() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="bg-[#1C1C1C] px-8 py-16">
+        <div className="flex justify-between pb-16">
+          {
+            links.map((item1, index1)=>(
+              <div key={index1}>
+                  <h3 className="font-semibold mb-2">{item1.title}</h3>
+                  {item1.more.map((item2, index2)=>(
+                    <ul>
+                      <li key={index2} className="text-sm mb-1">{item2}</li>
+                    </ul>
+                  ))}
+              </div>
+            ))
+          }
+          <div>
+            <ul className="flex gap-4">
+              <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full"><i class="ri-instagram-line text-xl"></i></li>
+              <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full"><i class="ri-twitter-fill text-xl"></i></li>
+              <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full"><i class="ri-facebook-circle-fill text-xl"></i></li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <div className="pt-16 text-xs">
+          © 2024 EchoTunes
+        </div>
+      </div>
       </div>
     </div>
   );
