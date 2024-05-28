@@ -2,61 +2,7 @@ import React, { useEffect, useState } from "react";
 import { arr, links } from "../../utils";
 import "remixicon/fonts/remixicon.css";
 
-function Playlist() {
-  const [songs, setSongs] = useState([]);
-
-  // get data from server
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await fetch("http://localhost:3000/songs/");
-  //       const response = await data.json();
-  //       setSongs(response)
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //     fetchData();
-  // }, [])
-
-  // get data from local
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch("http://localhost:5173/songs/songs.html");
-        const response = await data.text();
-        let div = document.createElement("div");
-        div.innerHTML = response;
-        let as = div.getElementsByTagName("a");
-        let images = div.getElementsByTagName("img");
-        let songs = [];
-        for (let i = 0; i < as.length; i++) {
-          const anchor = as[i];
-          const source = images[i];
-          if (anchor.href.endsWith(".mp3") && source.src) {
-            let song = {
-              media: anchor.href,
-              img: source.src,
-              title: anchor.innerHTML.split(" - ")[0],
-              desc: anchor.innerHTML.split(" - ")[1],
-            }
-            songs.push(song);
-          }
-        }
-        setSongs(songs);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const playBtn = (e)=>{
-    const filteredSong = songs.filter(item=>item.title === e);
-    let audio = new Audio(filteredSong[0].media);
-      audio.play();
-  }
-
+function Playlist({songs, playBtn}) {
   return (
     <div className="w-[75vw] h-[77vh] overflow-hidden m-2 ms-0 bg-[#1C1C1C] rounded-lg">
       <div className="px-6 py-4 flex justify-between items-center bg-[#121212]">
