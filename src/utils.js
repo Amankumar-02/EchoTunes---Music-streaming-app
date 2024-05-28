@@ -21,5 +21,6 @@ let links = [
         ]
     },
 ]
+let menuLinks = ["Legal", "Safety & Privacy Center", "Privacy Policy", "Cookies", "About Ads", "Accessibility"]
 
-export { arr, links }
+export { arr, links, menuLinks }

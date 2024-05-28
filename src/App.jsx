@@ -1,36 +1,35 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Nav, Menu, Playlist, Footer} from './components/index';
+import React, { useState, useEffect, useRef } from "react";
+import { Menu, Playlist, Footer } from "./components/index";
 
 function App() {
   const [songs, setSongs] = useState([]);
-  // const [volVal, setVolVal] = useState([]);
-  let playIcon = document.getElementById("playIcon");
-  let mediaInfo = document.getElementById("mediaInfo");
-  let mediaStart = document.getElementById("mediaStart");
-  let mediaEnd = document.getElementById("mediaEnd");
-  let seekBar = document.getElementById("seekBar");
-  // let volumeBar = document.getElementById("volumeBar");
-  let volumeBar = useRef(null)
-  let currentSong = new Audio();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const playIcon = useRef(null);
+  const mediaInfo = useRef(null);
+  const mediaStart = useRef(null);
+  const mediaEnd = useRef(null);
+  const seekBar = useRef(null);
+  const volumeBar = useRef(null);
+  const audioRef = useRef(new Audio());
 
+  // format the media time
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  function timeToPercentage(currentTime, duration) {
-    // Calculate the percentage
-    const percentage = (currentTime / duration) * 100;
-
-    return percentage;
-}
-
+  // shuffle the library
   const shuffleArray = (array) => {
     let shuffledArray = array.slice();
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
     return shuffledArray;
   };
@@ -41,7 +40,8 @@ function App() {
   //     try {
   //       const data = await fetch("http://localhost:3000/songs/");
   //       const response = await data.json();
-  //       setSongs(response)
+  //       const shuffledSongs = shuffleArray(response);
+  //       setSongs(shuffledSongs);
   //     } catch (error) {
   //       console.error('Error fetching data:', error);
   //     }
@@ -49,7 +49,7 @@ function App() {
   //     fetchData();
   // }, [])
 
-  // get data from local
+  // Fetch data from local
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,7 +59,7 @@ function App() {
         div.innerHTML = response;
         let as = div.getElementsByTagName("a");
         let images = div.getElementsByTagName("img");
-        let songs = [];
+        let fetchedSongs = [];
         for (let i = 0; i < as.length; i++) {
           const anchor = as[i];
           const source = images[i];
@@ -69,11 +69,11 @@ function App() {
               img: source.src,
               title: anchor.innerHTML.split(" - ")[0],
               desc: anchor.innerHTML.split(" - ")[1],
-            }
-            songs.push(song);
+            };
+            fetchedSongs.push(song);
           }
         }
-        const shuffledSongs = shuffleArray(songs);
+        const shuffledSongs = shuffleArray(fetchedSongs);
         setSongs(shuffledSongs);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -82,81 +82,115 @@ function App() {
     fetchData();
   }, []);
 
-  const playBtn = (e)=>{
-    const filteredSong = songs.filter(item=>item.title === e)[0].media;
-    currentSong.src = filteredSong;
-    currentSong.play();
-    mediaInfo.innerHTML = e;
-    currentSong.addEventListener("timeupdate", ()=>{
-      seekBar.value = timeToPercentage(currentSong.currentTime, currentSong.duration);
-      mediaStart.innerHTML = formatTime(currentSong.currentTime); 
-      mediaEnd.innerHTML = formatTime(currentSong.duration); 
-    })
-    currentSong.addEventListener("ended", () => {
-      seekBar.value = 0;
-      mediaStart.innerHTML = formatTime(0);
-      playIcon.setAttribute("class", "ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]");
-    });
-    playIcon.setAttribute("class", "ri-pause-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]")
-  }
+  // this func trigger everytime when ui rerender
+  useEffect(() => {
+    const audio = audioRef.current;
+    const updateTime = () => {
+      seekBar.current.value = (audio.currentTime / audio.duration) * 100;
+      mediaStart.current.innerHTML = formatTime(audio.currentTime);
+      mediaEnd.current.innerHTML = formatTime(audio.duration);
+    };
+    const resetPlayer = () => {
+      seekBar.current.value = 0;
+      mediaStart.current.innerHTML = formatTime(0);
+      setIsPlaying(false);
+      playIcon.current.className =
+        "ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]";
+    };
 
-  const play = ()=>{
-    if(!currentSong.src){
-      currentSong.src = songs[0].media
-      mediaInfo.innerHTML = songs[0].title;
-      currentSong.addEventListener("timeupdate", ()=>{
-        seekBar.value = timeToPercentage(currentSong.currentTime, currentSong.duration);
-        mediaStart.innerHTML = formatTime(currentSong.currentTime); 
-        mediaEnd.innerHTML = formatTime(currentSong.duration); 
-      })
-      currentSong.addEventListener("ended", () => {
-        seekBar.value = 0;
-        mediaStart.innerHTML = formatTime(0);
-        playIcon.setAttribute("class", "ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]");
-      });
-    }
-    if(currentSong.paused){
-      currentSong.play()
-      playIcon.setAttribute("class", "ri-pause-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]")
-    }else{
-      currentSong.pause()
-      playIcon.setAttribute("class", "ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]")
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("ended", resetPlayer);
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("ended", resetPlayer);
+    };
+  }, []);
+
+  // Main Media playButton
+  const playBtn = (title, index=0) => {
+    const song = songs.find((item) => item.title === title);
+    console.log(index)
+    setCurrentIndex(index);
+    if (song) {
+      audioRef.current.src = song.media;
+      audioRef.current.play();
+      setCurrentSong(song);
+      setIsPlaying(true);
+      mediaInfo.current.innerHTML = song.title;
+      playIcon.current.className =
+        "ri-pause-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]";
     }
   };
 
-  const onChange = (e)=>{
-    if(currentSong.src){
-      seekBar.value = e.target.value
-      currentSong.currentTime = ((currentSong.duration)*e.target.value)/100;
+  // footer playBtn handler
+  const play = () => {
+    if (!currentSong && songs.length > 0) {
+      playBtn(songs[0].title, 0);
+      // setCurrentIndex(0);
+    } else {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        playIcon.current.className =
+          "ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]";
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+        playIcon.current.className =
+          "ri-pause-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]";
+      }
     }
-  }
-
-  const onVolumeChange = (e2)=>{
-    // if(currentSong.src){
-      volumeBar.value = e2.target.value
-      console.log(volumeBar.value)
-      currentSong.volume = e2.target.value/100;
-    // }
-  }
-
-  const previous = ()=>{
-    
   };
 
-  const next = ()=>{
-    
+  // seekBar event
+  const onSeekBarChange = (e) => {
+    if (audioRef.current.src) {
+      seekBar.current.value = e.target.value;
+      audioRef.current.currentTime =
+        (audioRef.current.duration * e.target.value) / 100;
+    }
+  };
+
+  // volume event
+  const onVolumeChange = (e) => {
+    volumeBar.current.value = e.target.value;
+    audioRef.current.volume = e.target.value / 100;
+  };
+
+  const previous = () => {
+    if(currentIndex > 0){
+      playBtn(songs[currentIndex-1].title, currentIndex-1);
+    }
+  };
+
+  const next = () => {
+    if(songs[currentIndex+1]?.title){
+      playBtn(songs[currentIndex+1].title, currentIndex+1);
+    }
   };
 
   return (
     <>
-      {/* <Nav/> */}
-      <div className='w-full flex'>
-        <Menu/>
-        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon}/>
+      <div className="w-full flex">
+        <Menu />
+        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon} />
       </div>
-      <Footer play={play} previous={previous} next={next} onVolumeChange={onVolumeChange} onChange={onChange} volumeBar={volumeBar}/>
+      <Footer
+        play={play}
+        previous={previous}
+        next={next}
+        onVolumeChange={onVolumeChange}
+        onSeekBarChange={onSeekBarChange}
+        mediaInfo={mediaInfo}
+        mediaStart={mediaStart}
+        playIcon={playIcon}
+        mediaEnd={mediaEnd}
+        seekBar={seekBar}
+        volumeBar={volumeBar}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

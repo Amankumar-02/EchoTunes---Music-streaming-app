@@ -42,7 +42,7 @@ function Playlist({songs, playBtn}) {
                       alt=""
                       className="h-full w-full object-cover"
                     />
-                    <div className="playBtn absolute right-2 bottom-2 rounded-full bg-green-500 px-3 py-2 cursor-pointer" onClick={()=>{playBtn(item.title)}}>
+                    <div className="playBtn absolute right-2 bottom-2 rounded-full bg-green-500 px-3 py-2 cursor-pointer" onClick={()=>{playBtn(item.title, index)}}>
                       <i className="ri-play-fill text-3xl text-black"></i>
                     </div>
                   </div>

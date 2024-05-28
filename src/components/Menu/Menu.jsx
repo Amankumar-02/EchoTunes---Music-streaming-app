@@ -1,5 +1,6 @@
 import React from "react";
 import "remixicon/fonts/remixicon.css";
+import { menuLinks } from '../../utils';
 
 function Menu() {
   return (
@@ -29,23 +30,19 @@ function Menu() {
           <div className="bg-[#242424] rounded-lg py-4 px-6">
             <div className="text-sm mb-1 font-semibold">Create your first playlist</div>
             <p className="text-xs mb-2">It's easy, we'll help you</p>
-            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Create playlist</button>
+            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Create Playlist</button>
           </div>
           <div className="bg-[#242424] rounded-lg py-4 px-6">
-            <div className="text-sm mb-1 font-semibold">Let’s find some podcasts to follow</div>
-            <p className="text-xs mb-2">We’ll keep you updated on new episodes</p>
-            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Browse podcasts</button>
+            <div className="text-sm mb-1 font-semibold">Let’s find some playlist</div>
+            <p className="text-xs mb-2">We’ll keep you updated</p>
+            <button className="rounded-3xl bg-white text-black text-sm font-bold px-3 py-1 w-fit">Browse Playlist</button>
           </div>
         </div>
         <div className="px-4">
           <ul className="flex flex-wrap gap-4 text-xs text-gray-400 my-5">
-            <li className="cursor-pointer">Legal</li>
-            <li className="cursor-pointer">Safety & Privacy Center</li>
-            <li className="cursor-pointer">Privacy Policy</li>
-            <li className="cursor-pointer">Cookies</li>
-            <li className="cursor-pointer">About Ads</li>
-            <li className="cursor-pointer">Accessibility</li>
-            <li className="cursor-pointer">Cookies</li>
+            {menuLinks.map((item, index)=>(
+              <li key={index} className="cursor-pointer">{item}</li>
+            ))}
           </ul>
           <div className="flex gap-1 items-center px-3 rounded-3xl border w-fit cursor-pointer">
           <i className="ri-global-line text-xl"></i>
