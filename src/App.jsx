@@ -5,6 +5,7 @@ function App() {
   const [songs, setSongs] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(null);
+  console.log(currentSong)
   const [isPlaying, setIsPlaying] = useState(false);
   const playIcon = useRef(null);
   const mediaInfo = useRef(null);
@@ -174,7 +175,7 @@ function App() {
     <>
       <div className="w-full flex">
         <Menu />
-        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon} />
+        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon} currentSong={currentSong}/>
       </div>
       <Footer
         play={play}

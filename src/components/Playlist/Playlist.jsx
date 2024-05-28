@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { arr, links } from "../../utils";
 import "remixicon/fonts/remixicon.css";
 
-function Playlist({songs, playBtn}) {
+function Playlist({songs, playBtn, currentSong}) {
   return (
     <div className="w-[75vw] h-[77vh] overflow-hidden m-2 ms-0 bg-[#1C1C1C] rounded-lg">
       <div className="px-6 py-4 flex justify-between items-center bg-[#121212]">
@@ -42,8 +42,8 @@ function Playlist({songs, playBtn}) {
                       alt=""
                       className="h-full w-full object-cover"
                     />
-                    <div className="playBtn absolute right-2 bottom-2 rounded-full bg-green-500 px-3 py-2 cursor-pointer" onClick={()=>{playBtn(item.title, index)}}>
-                      <i className="ri-play-fill text-3xl text-black"></i>
+                    <div className={`playBtn absolute right-2 bottom-2 rounded-full ${currentSong?.title === item.title? "bg-black text-green-500" : "bg-green-500 text-black"} px-3 py-2 cursor-pointer`} onClick={()=>{playBtn(item.title, index)}}>
+                        <i className="ri-play-fill text-3xl"></i>
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 my-2 px-1">

@@ -23,7 +23,7 @@ function Footer({
         <div
           id="mediaInfo"
           ref={mediaInfo}
-          className="text-center text-black text-lg font-semibold"
+          className="text-center text-black text-lg font-semibold w-2/3 h-[30px] overflow-hidden m-auto"
         ></div>
         <div className="flex justify-center items-center gap-4">
           <i
