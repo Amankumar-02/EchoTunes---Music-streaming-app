@@ -1,40 +1,141 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "remixicon/fonts/remixicon.css";
+import { formatTime } from "../../customHooks";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setIsPlaying,
+  setCurrentIndex,
+  setCurrentSong,
+  setPlayIcon,
+  setMediaInfo,
+  setMediaStart,
+  setMediaEnd,
+  setSeekBar,
+  setVolumeBar,
+} from "../../features/customStates/customStates";
+import { AudioContext } from '../../context/audioContext';
 
-function MusicPlayer({
-  play,
-  previous,
-  next,
-  onVolumeChange,
-  onSeekBarChange,
-  mediaInfo,
-  mediaStart,
-  playIcon,
-  mediaEnd,
-  seekBar,
-  volumeBar,
-}) {
+function MusicPlayer() {
+  const dispatch = useDispatch();
+  const audioRef = useContext(AudioContext);
+  const songs = useSelector((state) => state.test.songs);
+  const currentIndex = useSelector((state) => state.customState.currentIndex);
+  const currentSong = useSelector((state) => state.customState.currentSong);
+  const isPlaying = useSelector((state) => state.customState.isPlaying);
+  const playIcon = useSelector((state) => state.customState.playIcon);
+  const mediaInfo = useSelector((state) => state.customState.mediaInfo);
+  const mediaStart = useSelector((state) => state.customState.mediaStart);
+  const mediaEnd = useSelector((state) => state.customState.mediaEnd);
+  const seekBar = useSelector((state) => state.customState.seekBar);
+  const volumeBar = useSelector((state) => state.customState.volumeBar);
   const [volIcon, setVolIcon] = useState(false);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    const updateTime = () => {
+      // dispatch(setSeekBar((audio.currentTime / audio.duration) * 100));
+      dispatch(
+        setSeekBar(
+          isNaN((audio.currentTime / audio.duration) * 100)
+            ? 0
+            : (audio.currentTime / audio.duration) * 100
+        )
+      );
+      dispatch(setMediaStart(formatTime(audio.currentTime)));
+      dispatch(setMediaEnd(formatTime(audio.duration)));
+    };
+    const resetPlayer = () => {
+      dispatch(setSeekBar(0));
+      dispatch(setMediaStart(formatTime(0)));
+      dispatch(setIsPlaying(false));
+      dispatch(setPlayIcon(false));
+    };
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("ended", resetPlayer);
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("ended", resetPlayer);
+    };
+  }, [dispatch]);
+
+  const playBtn = (title, index = 0) => {
+    const song = songs.find((item) => item.title === title);
+    dispatch(setCurrentIndex(index));
+    if (song) {
+      audioRef.current.src = song.media;
+      audioRef.current.play();
+      dispatch(setCurrentSong(song));
+      dispatch(setIsPlaying(true));
+      dispatch(setMediaInfo(song.title));
+      dispatch(setPlayIcon(true));
+    }
+  };
+
+  // footer playBtn handler
+  const play = () => {
+    if (!currentSong && songs.length > 0) {
+      playBtn(songs[0].title, 0);
+    } else {
+      if (isPlaying) {
+        audioRef.current.pause();
+        dispatch(setIsPlaying(false));
+        dispatch(setPlayIcon(false));
+      } else {
+        audioRef.current.play();
+        dispatch(setIsPlaying(true));
+        dispatch(setPlayIcon(true));
+      }
+    }
+  };
+
+  // seekBar event
+  const onSeekBarChange = (e) => {
+    if (audioRef.current.src) {
+      dispatch(setSeekBar(e.target.value));
+      audioRef.current.currentTime =
+        (audioRef.current.duration * e.target.value) / 100;
+    } else {
+      dispatch(setSeekBar(0));
+    }
+  };
+
   const volumeBtn = () => {
     setVolIcon((prev) => !prev);
   };
+
+  // volume event
+  const onVolumeChange = (e) => {
+    dispatch(setVolumeBar(e.target.value));
+    audioRef.current.volume = e.target.value / 100;
+  };
+
+  const previous = () => {
+    if (currentIndex > 0) {
+      playBtn(songs[currentIndex - 1].title, currentIndex - 1);
+    }
+  };
+
+  const next = () => {
+    if (songs[currentIndex + 1]?.title) {
+      playBtn(songs[currentIndex + 1].title, currentIndex + 1);
+    }
+  };
+
   return (
     <>
       <div className="m-2 bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2">
-        <div
-          id="mediaInfo"
-          ref={mediaInfo}
-          className="text-center text-black text-lg font-semibold w-full md:w-2/3 h-[30px] overflow-hidden m-auto"
-        ></div>
+        <div className="text-center text-black text-lg font-semibold w-full md:w-2/3 h-[30px] overflow-hidden m-auto">
+          {mediaInfo}
+        </div>
         <div className="flex justify-center items-center gap-4">
           <i
             className="ri-skip-back-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
             onClick={previous}
           ></i>
           <i
-            id="playIcon"
-            ref={playIcon}
-            className="ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
+            className={`${
+              playIcon ? "ri-pause-circle-line" : "ri-play-circle-line"
+            } text-3xl text-black cursor-pointer hover:scale-[1.2]`}
             onClick={play}
           ></i>
           <i
@@ -46,41 +147,24 @@ function MusicPlayer({
             onClick={volumeBtn}
           ></i>
           <input
-            id="volumeBar"
-            ref={volumeBar}
-            onChange={(e) => {
-              onVolumeChange(e);
-            }}
+            value={volumeBar}
+            onChange={onVolumeChange}
             type="range"
-            defaultValue="50"
+            // defaultValue="50"
             className={volIcon ? "inline-block" : "hidden"}
           />
         </div>
         <div className="flex justify-between items-center gap-4">
-          <div
-            id="mediaStart"
-            ref={mediaStart}
-            className="text-black font-semibold"
-          >
-            00:00
-          </div>
+          <div className="text-black font-semibold">{mediaStart}</div>
           <input
-            id="seekBar"
-            ref={seekBar}
-            onChange={(e) => {
-              onSeekBarChange(e);
-            }}
+            // value={seekBar}
+            value={isNaN(seekBar) ? 0 : seekBar}
+            onChange={onSeekBarChange}
             type="range"
-            defaultValue="0"
+            // defaultValue="0"
             className="w-full"
           />
-          <div
-            id="mediaEnd"
-            ref={mediaEnd}
-            className="text-black font-semibold"
-          >
-            00:00
-          </div>
+          <div className="text-black font-semibold">{mediaEnd}</div>
         </div>
       </div>
     </>

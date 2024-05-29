@@ -1,4 +1,3 @@
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 let links = [
     {
         title: "Company", more: [
@@ -23,4 +22,4 @@ let links = [
 ]
 let menuLinks = ["Legal", "Safety & Privacy Center", "Privacy Policy", "Cookies", "About Ads", "Accessibility"]
 
-export { arr, links, menuLinks }
+export { links, menuLinks }

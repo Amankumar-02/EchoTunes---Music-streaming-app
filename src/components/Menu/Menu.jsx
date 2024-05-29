@@ -1,8 +1,16 @@
 import React from "react";
 import "remixicon/fonts/remixicon.css";
 import { menuLinks } from '../../utils';
+import { useSelector, useDispatch } from "react-redux";
+import {setMenuToggle} from '../../features/customStates/customStates';
 
-function Menu({menuToggle, menuToggleHandler}) {
+function Menu() {
+  const menuToggle = useSelector(state=>state.customState.menuToggle);
+  const dispatch = useDispatch();
+  const menuToggleHandler = ()=>{
+    dispatch(setMenuToggle(!menuToggle))
+  }
+
   return (
     <div className={`${menuToggle? "inline-block absolute top-0 left-0 z-10 bg-black pe-2 w-[50vw]" : "hidden"} md:inline-block md:relative md:z-0 md:pe-0 md:w-[25vw] md:bg-transparent m-2 h-[77vh] rounded-lg overflow-hidden`}>
       <div className="homeSection rounded-lg py-3 lg:py-4 px-4 lg:px-6 bg-[#121212] mb-2">

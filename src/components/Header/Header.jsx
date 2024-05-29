@@ -1,15 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import "remixicon/fonts/remixicon.css";
-import {storeCartData} from '../../features/test/test'
-import { useDispatch } from 'react-redux';
 
 function Header({menuToggleHandler}) {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(storeCartData("Hello"))
-    dispatch(storeCartData("Hello2"))
-    dispatch(storeCartData("Hello3"))
-  }, [])
   return (
     <div className="px-6 py-2 md:py-4 flex justify-between items-center bg-[#121212]">
         <div className="flex items-center gap-2">

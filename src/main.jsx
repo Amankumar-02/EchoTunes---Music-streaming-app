@@ -6,6 +6,7 @@ import { Home } from './components/index.js';
 import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store.js';
+import { AudioProvider } from './context/audioContext.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,7 +19,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AudioProvider>
+        <RouterProvider router={router} />
+      </AudioProvider>
     </Provider>
   // </React.StrictMode>,
 )

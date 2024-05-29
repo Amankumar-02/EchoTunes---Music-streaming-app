@@ -30,15 +30,6 @@ body {
   border-radius: 10px;
 }
 
-/* .playBtn{
-    transform: scaleY(0);
-    transition: all 0.2s linear;
-}
-
-.card:hover .playBtn{
-    transform: scaleY(1);
-} */
-
 .playBtn {
     transform: scaleY(0);
     transform-origin: bottom;
