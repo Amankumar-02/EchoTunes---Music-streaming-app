@@ -1,8 +1,11 @@
 import React from "react";
 import "remixicon/fonts/remixicon.css";
 import {Header, SongCard, AlbumCard, Footer} from '../index';
+import { useSelector } from "react-redux";
 
 function Playlist({songs, albums, playBtn, currentSong, menuToggleHandler}) {
+  const data = useSelector(state=>state.test);
+  console.log(data)
   return (
     <div className="w-full md:w-[75vw] h-[77vh] overflow-hidden m-2 md:ms-0 bg-[#1C1C1C] rounded-lg">
       <Header menuToggleHandler={menuToggleHandler}/>
