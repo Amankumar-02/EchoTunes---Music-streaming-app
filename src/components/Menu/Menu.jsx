@@ -9,7 +9,7 @@ function Menu({menuToggle, menuToggleHandler}) {
         <div className="logo mb-4 text-lg flex justify-between items-center font-semibold cursor-pointer">
           <p>EchoTunes</p>
           <div className="md:hidden bg-black rounded-full px-2 py-1 cursor-pointer w-fit" onClick={menuToggleHandler}>
-          <i class="ri-close-line text-xl md:text-2xl"></i>
+          <i className="ri-close-line text-xl md:text-2xl"></i>
           </div>
         </div>
         <ul>

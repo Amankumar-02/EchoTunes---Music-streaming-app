@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, Playlist, Footer } from "../index";
+import { Menu, Playlist, MusicPlayer } from "../index";
+import "remixicon/fonts/remixicon.css";
 
 function App() {
   const [songs, setSongs] = useState([]);
@@ -123,7 +124,6 @@ function App() {
   // Main Media playButton
   const playBtn = (title, index=0) => {
     const song = songs.find((item) => item.title === title);
-    console.log(index)
     setCurrentIndex(index);
     if (song) {
       audioRef.current.src = song.media;
@@ -161,7 +161,9 @@ function App() {
     if (audioRef.current.src) {
       seekBar.current.value = e.target.value;
       audioRef.current.currentTime =
-        (audioRef.current.duration * e.target.value) / 100;
+      (audioRef.current.duration * e.target.value) / 100;
+    }else{
+      seekBar.current.value = 0
     }
   };
 
@@ -193,7 +195,7 @@ function App() {
         <Menu menuToggle={menuToggle} menuToggleHandler={menuToggleHandler}/>
         <Playlist songs={songs} albums={albums} playBtn={playBtn} playIcon={playIcon} currentSong={currentSong} menuToggleHandler={menuToggleHandler}/>
       </div>
-      <Footer
+      <MusicPlayer
         play={play}
         previous={previous}
         next={next}

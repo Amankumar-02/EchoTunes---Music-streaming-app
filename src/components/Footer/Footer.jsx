@@ -1,89 +1,42 @@
-import React, { useState } from "react";
+import React from 'react'
+import { links } from "../../utils";
+import "remixicon/fonts/remixicon.css";
 
-function Footer({
-  play,
-  previous,
-  next,
-  onVolumeChange,
-  onSeekBarChange,
-  mediaInfo,
-  mediaStart,
-  playIcon,
-  mediaEnd,
-  seekBar,
-  volumeBar,
-}) {
-  const [volIcon, setVolIcon] = useState(false);
-  const volumeBtn = () => {
-    setVolIcon((prev) => !prev);
-  };
+function Footer() {
   return (
-    <>
-      <div className="m-2 bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2">
-        <div
-          id="mediaInfo"
-          ref={mediaInfo}
-          className="text-center text-black text-lg font-semibold w-full md:w-2/3 h-[30px] overflow-hidden m-auto"
-        ></div>
-        <div className="flex justify-center items-center gap-4">
-          <i
-            className="ri-skip-back-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
-            onClick={previous}
-          ></i>
-          <i
-            id="playIcon"
-            ref={playIcon}
-            className="ri-play-circle-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
-            onClick={play}
-          ></i>
-          <i
-            className="ri-skip-forward-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
-            onClick={next}
-          ></i>
-          <i
-            className="ri-volume-up-line text-2xl text-black cursor-pointer hover:scale-[1.2]"
-            onClick={volumeBtn}
-          ></i>
-          <input
-            id="volumeBar"
-            ref={volumeBar}
-            onChange={(e) => {
-              onVolumeChange(e);
-            }}
-            type="range"
-            defaultValue="50"
-            className={volIcon ? "inline-block" : "hidden"}
-          />
-        </div>
-        <div className="flex justify-between items-center gap-4">
-          <div
-            id="mediaStart"
-            ref={mediaStart}
-            className="text-black font-semibold"
-          >
-            00:00
+    <div className="footer bg-[#1C1C1C] px-4 md:px-8 py-6 md:py-16">
+          <hr />
+          <div className="flex flex-wrap lg:flex-nowrap gap-6 md:gap-2 md:justify-between py-6 md:py-16">
+            {links.map((item1, index1) => (
+              <div key={index1}>
+                <h3 className="text-sm md:text-base font-semibold mb-2">{item1.title}</h3>
+                <ul>
+                  {item1.more.map((item2, index2) => (
+                    <li key={index2} className="text-xs md:text-sm mb-1">
+                      {item2}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <div>
+              <ul className="flex gap-2 md:gap-4">
+                <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full">
+                  <i className="ri-instagram-line text-xl"></i>
+                </li>
+                <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full">
+                  <i className="ri-twitter-fill text-xl"></i>
+                </li>
+                <li className="bg-[#242424] hover:bg-[#727272] px-3 py-2 rounded-full">
+                  <i className="ri-facebook-circle-fill text-xl"></i>
+                </li>
+              </ul>
+            </div>
           </div>
-          <input
-            id="seekBar"
-            ref={seekBar}
-            onChange={(e) => {
-              onSeekBarChange(e);
-            }}
-            type="range"
-            defaultValue="0"
-            className="w-full"
-          />
-          <div
-            id="mediaEnd"
-            ref={mediaEnd}
-            className="text-black font-semibold"
-          >
-            00:00
-          </div>
+          <hr />
+          <div className="pt-6 md:pt-16 text-xs">© 2024 EchoTunes</div>
         </div>
-      </div>
-    </>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
