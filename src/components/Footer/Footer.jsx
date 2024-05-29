@@ -19,11 +19,11 @@ function Footer({
   };
   return (
     <>
-      <div className="m-2 bg-[#1FDD63] rounded-lg px-10 py-2">
+      <div className="m-2 bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2">
         <div
           id="mediaInfo"
           ref={mediaInfo}
-          className="text-center text-black text-lg font-semibold w-2/3 h-[30px] overflow-hidden m-auto"
+          className="text-center text-black text-lg font-semibold w-full md:w-2/3 h-[30px] overflow-hidden m-auto"
         ></div>
         <div className="flex justify-center items-center gap-4">
           <i
@@ -41,7 +41,7 @@ function Footer({
             onClick={next}
           ></i>
           <i
-            className="ri-volume-up-line text-3xl text-black cursor-pointer hover:scale-[1.2]"
+            className="ri-volume-up-line text-2xl text-black cursor-pointer hover:scale-[1.2]"
             onClick={volumeBtn}
           ></i>
           <input

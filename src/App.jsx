@@ -3,9 +3,9 @@ import { Menu, Playlist, Footer } from "./components/index";
 
 function App() {
   const [songs, setSongs] = useState([]);
+  const [menuToggle, setMenuToggle] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSong, setCurrentSong] = useState(null);
-  console.log(currentSong)
   const [isPlaying, setIsPlaying] = useState(false);
   const playIcon = useRef(null);
   const mediaInfo = useRef(null);
@@ -171,11 +171,15 @@ function App() {
     }
   };
 
+  const menuToggleHandler = ()=>{
+    setMenuToggle(prev=>!prev)
+  }
+
   return (
     <>
       <div className="w-full flex">
-        <Menu />
-        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon} currentSong={currentSong}/>
+        <Menu menuToggle={menuToggle} menuToggleHandler={menuToggleHandler}/>
+        <Playlist songs={songs} playBtn={playBtn} playIcon={playIcon} currentSong={currentSong} menuToggleHandler={menuToggleHandler}/>
       </div>
       <Footer
         play={play}
