@@ -36,52 +36,52 @@ function App() {
   };
 
   // get data from server
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await fetch("http://localhost:3000/songs/");
-  //       const response = await data.json();
-  //       const shuffledSongs = shuffleArray(response);
-  //       setSongs(shuffledSongs);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //     fetchData();
-  // }, [])
-
-  // Fetch data from local
-  useEffect(() => {
+  useEffect(()=>{
     const fetchData = async () => {
       try {
-        const data = await fetch("http://localhost:5173/songs/songs.html");
-        const response = await data.text();
-        let div = document.createElement("div");
-        div.innerHTML = response;
-        let as = div.getElementsByTagName("a");
-        let images = div.getElementsByTagName("img");
-        let fetchedSongs = [];
-        for (let i = 0; i < as.length; i++) {
-          const anchor = as[i];
-          const source = images[i];
-          if (anchor.href.endsWith(".mp3") && source.src) {
-            let song = {
-              media: anchor.href,
-              img: source.src,
-              title: anchor.innerHTML.split(" - ")[0],
-              desc: anchor.innerHTML.split(" - ")[1],
-            };
-            fetchedSongs.push(song);
-          }
-        }
-        const shuffledSongs = shuffleArray(fetchedSongs);
+        const data = await fetch("http://localhost:3000/songs/");
+        const response = await data.json();
+        const shuffledSongs = shuffleArray(response);
         setSongs(shuffledSongs);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchData();
-  }, []);
+      fetchData();
+  }, [])
+
+  // Fetch data from local
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await fetch("http://localhost:5173/songs/songs.html");
+  //       const response = await data.text();
+  //       let div = document.createElement("div");
+  //       div.innerHTML = response;
+  //       let as = div.getElementsByTagName("a");
+  //       let images = div.getElementsByTagName("img");
+  //       let fetchedSongs = [];
+  //       for (let i = 0; i < as.length; i++) {
+  //         const anchor = as[i];
+  //         const source = images[i];
+  //         if (anchor.href.endsWith(".mp3") && source.src) {
+  //           let song = {
+  //             media: anchor.href,
+  //             img: source.src,
+  //             title: anchor.innerHTML.split(" - ")[0],
+  //             desc: anchor.innerHTML.split(" - ")[1],
+  //           };
+  //           fetchedSongs.push(song);
+  //         }
+  //       }
+  //       const shuffledSongs = shuffleArray(fetchedSongs);
+  //       setSongs(shuffledSongs);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   // this func trigger everytime when ui rerender
   useEffect(() => {
