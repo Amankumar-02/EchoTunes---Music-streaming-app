@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, Playlist, Footer } from "./components/index";
+import { Menu, Playlist, Footer } from "../index";
 
 function App() {
   const [songs, setSongs] = useState([]);

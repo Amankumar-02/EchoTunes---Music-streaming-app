@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { arr, links } from "../../utils";
 import "remixicon/fonts/remixicon.css";
 
-function Playlist({songs, playBtn, currentSong, menuToggleHandler}) {
+function Playlist({songs, albums, playBtn, currentSong, menuToggleHandler}) {
   return (
     <div className="w-full md:w-[75vw] h-[77vh] overflow-hidden m-2 md:ms-0 bg-[#1C1C1C] rounded-lg">
       <div className="px-6 py-2 md:py-4 flex justify-between items-center bg-[#121212]">
@@ -59,41 +59,38 @@ function Playlist({songs, playBtn, currentSong, menuToggleHandler}) {
           </div>
         </div>
         )}
-        <div id="section2">
+        {albums.length <= 0? null : (
+          <div id="section2">
           <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
             <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">EchoTunes Playlists</h1>
           </div>
           <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {arr.map((item, index) => (
+            {albums.map((item, index) => (
               <div
                 key={index}
                 className="card p-2 md:p-4 hover:bg-[#181818] rounded-lg"
+                // onClick={}
               >
                 <div className="w-[170px] md:w-[164px]">
                   <div className="relative h-[170px] md:h-[164px] rounded-lg overflow-hidden">
                     <img
-                      src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tfGVufDB8fDB8fHww"
+                      src={item.songs[0].img}
                       alt=""
                       className="h-full w-full object-cover"
                     />
-                    <div className="playBtn absolute right-2 bottom-2 rounded-full bg-green-500 px-3 py-2">
+                    {/* <div className="playBtn absolute right-2 bottom-2 rounded-full bg-green-500 px-3 py-2">
                       <i className="ri-play-fill text-3xl text-black"></i>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex flex-col gap-1 md:gap-2 my-2 px-1">
-                    <h2>New Music Friday</h2>
-                    <p className="max-h-[30px] md:max-h-[40px] overflow-hidden text-xs md:text-sm text-gray-400">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Nostrum odit quasi ipsum laborum voluptate repudiandae
-                      necessitatibus consectetur dolor animi nulla repellat,
-                      labore, laboriosam dolorem quisquam.
-                    </p>
+                    <h2>{item.folderName}</h2>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+        )}
         <div className="footer bg-[#1C1C1C] px-4 md:px-8 py-6 md:py-16">
           <hr />
           <div className="flex flex-wrap lg:flex-nowrap gap-6 md:gap-2 md:justify-between py-6 md:py-16">
