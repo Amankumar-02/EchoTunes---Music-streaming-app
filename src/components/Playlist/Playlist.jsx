@@ -1,6 +1,5 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "remixicon/fonts/remixicon.css";
-import { formatTime } from "../../customHooks";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setMenuToggle,
@@ -9,10 +8,6 @@ import {
   setCurrentSong,
   setPlayIcon,
   setMediaInfo,
-  setMediaStart,
-  setMediaEnd,
-  setSeekBar,
-  // setVolumeBar,
 } from "../../features/customStates/customStates";
 import { Header, SongCard, AlbumCard, Footer } from "../index";
 import { AudioContext } from '../../context/audioContext';
@@ -23,42 +18,7 @@ function Playlist() {
   const songs = useSelector((state) => state.test.songs);
   const albums = useSelector((state) => state.test.albums);
   const menuToggle = useSelector(state=>state.customState.menuToggle);
-  // const currentIndex = useSelector((state) => state.customState.currentIndex);
   const currentSong = useSelector((state) => state.customState.currentSong);
-  // const isPlaying = useSelector((state) => state.customState.isPlaying);
-  // const playIcon = useSelector((state) => state.customState.playIcon);
-  // const mediaInfo = useSelector((state) => state.customState.mediaInfo);
-  // const mediaStart = useSelector((state) => state.customState.mediaStart);
-  // const mediaEnd = useSelector((state) => state.customState.mediaEnd);
-  // const seekBar = useSelector((state) => state.customState.seekBar);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    const updateTime = () => {
-      // dispatch(setSeekBar((audio.currentTime / audio.duration) * 100));
-      dispatch(
-        setSeekBar(
-          isNaN((audio.currentTime / audio.duration) * 100)
-            ? 0
-            : (audio.currentTime / audio.duration) * 100
-        )
-      );
-      dispatch(setMediaStart(formatTime(audio.currentTime)));
-      dispatch(setMediaEnd(formatTime(audio.duration)));
-    };
-    const resetPlayer = () => {
-      dispatch(setSeekBar(0));
-      dispatch(setMediaStart(formatTime(0)));
-      dispatch(setIsPlaying(false));
-      dispatch(setPlayIcon(false));
-    };
-    audio.addEventListener("timeupdate", updateTime);
-    audio.addEventListener("ended", resetPlayer);
-    return () => {
-      audio.removeEventListener("timeupdate", updateTime);
-      audio.removeEventListener("ended", resetPlayer);
-    };
-  }, []);
 
   const playBtn = (title, index = 0) => {
     const song = songs.find((item) => item.title === title);

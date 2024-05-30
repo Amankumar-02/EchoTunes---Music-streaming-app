@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "remixicon/fonts/remixicon.css";
-import { formatTime } from "../../customHooks";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setIsPlaying,
@@ -8,8 +7,6 @@ import {
   setCurrentSong,
   setPlayIcon,
   setMediaInfo,
-  setMediaStart,
-  setMediaEnd,
   setSeekBar,
   setVolumeBar,
 } from "../../features/customStates/customStates";
@@ -29,34 +26,6 @@ function MusicPlayer() {
   const seekBar = useSelector((state) => state.customState.seekBar);
   const volumeBar = useSelector((state) => state.customState.volumeBar);
   const [volIcon, setVolIcon] = useState(false);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    const updateTime = () => {
-      // dispatch(setSeekBar((audio.currentTime / audio.duration) * 100));
-      dispatch(
-        setSeekBar(
-          isNaN((audio.currentTime / audio.duration) * 100)
-            ? 0
-            : (audio.currentTime / audio.duration) * 100
-        )
-      );
-      dispatch(setMediaStart(formatTime(audio.currentTime)));
-      dispatch(setMediaEnd(formatTime(audio.duration)));
-    };
-    const resetPlayer = () => {
-      dispatch(setSeekBar(0));
-      dispatch(setMediaStart(formatTime(0)));
-      dispatch(setIsPlaying(false));
-      dispatch(setPlayIcon(false));
-    };
-    audio.addEventListener("timeupdate", updateTime);
-    audio.addEventListener("ended", resetPlayer);
-    return () => {
-      audio.removeEventListener("timeupdate", updateTime);
-      audio.removeEventListener("ended", resetPlayer);
-    };
-  }, [dispatch]);
 
   const playBtn = (title, index = 0) => {
     const song = songs.find((item) => item.title === title);

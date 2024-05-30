@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {Outlet} from 'react-router-dom'
-import {fetchData} from './customHooks';
+import {fetchData, formatTime} from './customHooks';
 import { setSongs, setAlbums } from "./features/test/test";
+import { setSeekBar, setMediaStart, setMediaEnd, setIsPlaying, setPlayIcon } from "./features/customStates/customStates";
 import { useDispatch } from "react-redux";
+import { AudioContext } from './context/audioContext';
 
 function App() {
   const dispatch = useDispatch()
+  const audioRef = useContext(AudioContext);
 
   // get data from server
   useEffect(()=>{
@@ -21,6 +24,34 @@ function App() {
     }
     fetch()
   }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    const updateTime = () => {
+      // dispatch(setSeekBar((audio.currentTime / audio.duration) * 100));
+      dispatch(
+        setSeekBar(
+          isNaN((audio.currentTime / audio.duration) * 100)
+            ? 0
+            : (audio.currentTime / audio.duration) * 100
+        )
+      );
+      dispatch(setMediaStart(formatTime(audio.currentTime)));
+      dispatch(setMediaEnd(formatTime(audio.duration)));
+    };
+    const resetPlayer = () => {
+      dispatch(setSeekBar(0));
+      dispatch(setMediaStart(formatTime(0)));
+      dispatch(setIsPlaying(false));
+      dispatch(setPlayIcon(false));
+    };
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("ended", resetPlayer);
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("ended", resetPlayer);
+    };
+  }, []);
 
   return (
     <>
