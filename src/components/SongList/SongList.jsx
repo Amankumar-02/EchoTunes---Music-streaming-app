@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import "remixicon/fonts/remixicon.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -10,22 +10,17 @@ import {
 } from "../../features/customStates/customStates";
 import { SongCard, AlbumCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
-import { setPlayerSongs } from "../../features/test/test";
+import { useParams } from "react-router-dom";
 
-function Playlist() {
+function SongList() {
+  const songName = useParams();
   const dispatch = useDispatch();
   const audioRef = useContext(AudioContext);
-  const { songs, albums, playerSongs } = useSelector((state) => state.test);
+  const { albumSongs } = useSelector((state) => state.test);
   const currentSong = useSelector((state) => state.customState.currentSong);
 
-  useEffect(()=>{
-    dispatch(setPlayerSongs(songs));
-    dispatch(setCurrentIndex(0));
-  }, [])
-  
   const playBtn = (title, index = 0) => {
-    dispatch(setPlayerSongs(songs));
-    const song = playerSongs.find((item) => item.title === title);
+    const song = albumSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
     if (song) {
       audioRef.current.src = song.media;
@@ -36,12 +31,11 @@ function Playlist() {
       dispatch(setPlayIcon(true));
     }
   };
-
   return (
     <>
-      {songs.length <= 0 ? (
+      {albumSongs.length <= 0 ? (
         <>
-        <Shimmer/>
+          <Shimmer />
         </>
       ) : (
         <div id="section1">
@@ -51,7 +45,7 @@ function Playlist() {
             </h1>
           </div>
           <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {songs.map((item, index) => (
+            {albumSongs.map((item, index) => (
               <SongCard
                 key={index}
                 item={item}
@@ -63,26 +57,8 @@ function Playlist() {
           </div>
         </div>
       )}
-      {albums.length <= 0 ? (
-        <>
-        <Shimmer/>
-        </>
-      ) : (
-        <div id="section2">
-          <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
-            <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">
-              EchoTunes Playlists
-            </h1>
-          </div>
-          <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {albums.map((item, index) => (
-              <AlbumCard key={index} item={item} />
-            ))}
-          </div>
-        </div>
-      )}
     </>
   );
 }
 
-export default Playlist;
+export default SongList;

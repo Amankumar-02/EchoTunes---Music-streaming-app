@@ -15,12 +15,12 @@ import { AudioContext } from "../../context/audioContext";
 function MusicPlayer() {
   const dispatch = useDispatch();
   const audioRef = useContext(AudioContext);
-  const songs = useSelector((state) => state.test.songs);
+  const { songs, playerSongs } = useSelector((state) => state.test);
   const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar } = useSelector((state) => state.customState);
   const [volIcon, setVolIcon] = useState(false);
 
   const playBtn = (title, index = 0) => {
-    const song = songs.find((item) => item.title === title);
+    const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
     if (song) {
       audioRef.current.src = song.media;
@@ -34,8 +34,8 @@ function MusicPlayer() {
 
   // footer playBtn handler
   const play = () => {
-    if (!currentSong && songs.length > 0) {
-      playBtn(songs[0].title, 0);
+    if (!currentSong && playerSongs.length > 0) {
+      playBtn(playerSongs[0].title, 0);
     } else {
       if (isPlaying) {
         audioRef.current.pause();
@@ -72,13 +72,13 @@ function MusicPlayer() {
 
   const previous = () => {
     if (currentIndex > 0) {
-      playBtn(songs[currentIndex - 1].title, currentIndex - 1);
+      playBtn(playerSongs[currentIndex - 1].title, currentIndex - 1);
     }
   };
-
+  
   const next = () => {
-    if (songs[currentIndex + 1]?.title) {
-      playBtn(songs[currentIndex + 1].title, currentIndex + 1);
+    if (playerSongs[currentIndex + 1]?.title) {
+      playBtn(playerSongs[currentIndex + 1].title, currentIndex + 1);
     }
   };
 
