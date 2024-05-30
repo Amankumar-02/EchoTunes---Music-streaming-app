@@ -10,21 +10,13 @@ import {
   setSeekBar,
   setVolumeBar,
 } from "../../features/customStates/customStates";
-import { AudioContext } from '../../context/audioContext';
+import { AudioContext } from "../../context/audioContext";
 
 function MusicPlayer() {
   const dispatch = useDispatch();
   const audioRef = useContext(AudioContext);
   const songs = useSelector((state) => state.test.songs);
-  const currentIndex = useSelector((state) => state.customState.currentIndex);
-  const currentSong = useSelector((state) => state.customState.currentSong);
-  const isPlaying = useSelector((state) => state.customState.isPlaying);
-  const playIcon = useSelector((state) => state.customState.playIcon);
-  const mediaInfo = useSelector((state) => state.customState.mediaInfo);
-  const mediaStart = useSelector((state) => state.customState.mediaStart);
-  const mediaEnd = useSelector((state) => state.customState.mediaEnd);
-  const seekBar = useSelector((state) => state.customState.seekBar);
-  const volumeBar = useSelector((state) => state.customState.volumeBar);
+  const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar } = useSelector((state) => state.customState);
   const [volIcon, setVolIcon] = useState(false);
 
   const playBtn = (title, index = 0) => {

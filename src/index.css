@@ -73,3 +73,24 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]:focus::-webkit-slider-runnable-track {
   background: black;
 }
+
+
+.shimmerTitle{
+  animation: glow 2s infinite;
+}
+
+.ShimmerCard{
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.4;
+  }
+  100%{
+    opacity: 1;
+  }
+}

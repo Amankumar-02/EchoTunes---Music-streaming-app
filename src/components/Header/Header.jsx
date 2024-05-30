@@ -1,7 +1,15 @@
 import React from 'react'
 import "remixicon/fonts/remixicon.css";
+import { useSelector, useDispatch } from "react-redux";
+import { setMenuToggle } from '../../features/customStates/customStates';
 
-function Header({menuToggleHandler}) {
+function Header() {
+  const dispatch = useDispatch();
+  const menuToggle = useSelector((state) => state.customState.menuToggle);
+  const menuToggleHandler = () => {
+    dispatch(setMenuToggle(!menuToggle));
+  };
+
   return (
     <div className="px-6 py-2 md:py-4 flex justify-between items-center bg-[#121212]">
         <div className="flex items-center gap-2">
