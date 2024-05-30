@@ -14,11 +14,16 @@ import { AudioContext } from "../../context/audioContext";
 
 function MusicPlayer() {
   const dispatch = useDispatch();
+  // main audio ref
   const audioRef = useContext(AudioContext);
-  const { songs, playerSongs } = useSelector((state) => state.test);
+  // state with copy of songs
+  const { playerSongs } = useSelector((state) => state.test);
+  // custom states
   const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar } = useSelector((state) => state.customState);
   const [volIcon, setVolIcon] = useState(false);
 
+  // get audio file from playerSongs
+  // audio play handler 1of3
   const playBtn = (title, index = 0) => {
     const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
@@ -32,11 +37,13 @@ function MusicPlayer() {
     }
   };
 
-  // footer playBtn handler
+  // footer play trigger main audio playBtn handler 
+  // or toggle audio play / pause
   const play = () => {
     if (!currentSong && playerSongs.length > 0) {
       playBtn(playerSongs[0].title, 0);
     } else {
+      // play / pause toggler
       if (isPlaying) {
         audioRef.current.pause();
         dispatch(setIsPlaying(false));
@@ -49,7 +56,7 @@ function MusicPlayer() {
     }
   };
 
-  // seekBar event
+  // seekBar eventHandler
   const onSeekBarChange = (e) => {
     if (audioRef.current.src) {
       dispatch(setSeekBar(e.target.value));
@@ -60,22 +67,25 @@ function MusicPlayer() {
     }
   };
 
+  // volumeBtn eventHandler
   const volumeBtn = () => {
     setVolIcon((prev) => !prev);
   };
 
-  // volume event
+  // volumeBar eventHandler
   const onVolumeChange = (e) => {
     dispatch(setVolumeBar(e.target.value));
     audioRef.current.volume = e.target.value / 100;
   };
 
+  // prevBtn eventHandler
   const previous = () => {
     if (currentIndex > 0) {
       playBtn(playerSongs[currentIndex - 1].title, currentIndex - 1);
     }
   };
   
+  // nextBtn eventHandler
   const next = () => {
     if (playerSongs[currentIndex + 1]?.title) {
       playBtn(playerSongs[currentIndex + 1].title, currentIndex + 1);

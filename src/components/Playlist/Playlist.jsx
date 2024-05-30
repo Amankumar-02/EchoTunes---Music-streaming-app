@@ -14,17 +14,22 @@ import { setPlayerSongs } from "../../features/test/test";
 
 function Playlist() {
   const dispatch = useDispatch();
+  // main audio ref
   const audioRef = useContext(AudioContext);
+  // state with fetched songs / albums / copy of songs
   const { songs, albums, playerSongs } = useSelector((state) => state.test);
+  // custom states
   const currentSong = useSelector((state) => state.customState.currentSong);
 
+  // setPlayerSongs with fetched songs
   useEffect(()=>{
     dispatch(setPlayerSongs(songs));
     dispatch(setCurrentIndex(0));
   }, [])
   
+  // get audio file from playerSongs
+  // audio play handler 1of3
   const playBtn = (title, index = 0) => {
-    dispatch(setPlayerSongs(songs));
     const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
     if (song) {
@@ -37,9 +42,14 @@ function Playlist() {
     }
   };
 
+  // scroll to top when re-render
+  // useEffect(()=>{
+  //   document.getElementById("scrollComponent").scrollTo(0,0)
+  // })
+
   return (
     <>
-      {songs.length <= 0 ? (
+      {playerSongs.length <= 0 ? (
         <>
         <Shimmer/>
         </>
@@ -51,7 +61,7 @@ function Playlist() {
             </h1>
           </div>
           <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {songs.map((item, index) => (
+            {playerSongs.map((item, index) => (
               <SongCard
                 key={index}
                 item={item}

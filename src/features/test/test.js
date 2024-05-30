@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     songs: [],
     albums: [],
-    albumSongs: [],
     playerSongs: [],
 }
 
@@ -16,9 +15,6 @@ export const testSlice = createSlice({
         },
         setAlbums : (state, action)=>{
             state.albums = action.payload;
-        },
-        setAlbumSongs : (state, action)=>{
-            state.albumSongs = action.payload;
         },
         setPlayerSongs : (state, action)=>{
             state.playerSongs = action.payload;

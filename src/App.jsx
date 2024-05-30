@@ -14,17 +14,16 @@ import {
   setCurrentSong,
   setMediaInfo,
 } from "./features/customStates/customStates";
-
 import { useDispatch, useSelector } from "react-redux";
 import { AudioContext } from "./context/audioContext";
 
 function App() {
   const dispatch = useDispatch();
+  // main audio ref
   const audioRef = useContext(AudioContext);
+  // state with copy of current songs
   const { playerSongs } = useSelector((state) => state.test);
-  const {
-    currentIndex,
-  } = useSelector((state) => state.customState);
+  const { currentIndex } = useSelector((state) => state.customState);
 
   // get data from server
   useEffect(() => {
@@ -42,6 +41,7 @@ function App() {
     fetch();
   }, []);
 
+  // Handle audio updates
   useEffect(() => {
     const audio = audioRef.current;
     const updateTime = () => {
@@ -90,7 +90,7 @@ function App() {
         <Menu />
         <div className="w-full md:w-[75vw] h-[77vh] overflow-hidden m-2 md:ms-0 bg-[#1C1C1C] rounded-lg">
           <Header />
-          <div className="scroll h-[92%] md:h-[86%] overflow-scroll overflow-x-hidden">
+          <div id="scrollComponent" className="scroll h-[92%] md:h-[86%] overflow-scroll overflow-x-hidden">
             <Outlet />
             <Footer />
           </div>

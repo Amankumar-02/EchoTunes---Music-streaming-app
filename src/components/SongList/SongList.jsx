@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import "remixicon/fonts/remixicon.css";
+import { fetchDataWithoutShuffle } from "../../customHooks";
 import { useSelector, useDispatch } from "react-redux";
+import { setPlayerSongs } from "../../features/test/test";
 import {
   setIsPlaying,
   setCurrentIndex,
@@ -8,19 +10,39 @@ import {
   setPlayIcon,
   setMediaInfo,
 } from "../../features/customStates/customStates";
-import { SongCard, AlbumCard, Shimmer } from "../index";
+import { SongCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
 import { useParams } from "react-router-dom";
 
 function SongList() {
-  const songName = useParams();
+  // accessing the url params
+  const {songName} = useParams();
   const dispatch = useDispatch();
+  // main audio ref
   const audioRef = useContext(AudioContext);
-  const { albumSongs } = useSelector((state) => state.test);
+  // state with copy new album of songs
+  const { playerSongs } = useSelector((state) => state.test);
+  // custom states
   const currentSong = useSelector((state) => state.customState.currentSong);
 
+  // get filtered albumSongs from server then setPlayerSongs
+  useEffect(() => {
+    setTimeout(()=>{
+      const fetch = async () => {
+        const songs = await fetchDataWithoutShuffle(`http://localhost:3000/find/${songName}`);
+        if (songs) {
+          dispatch(setPlayerSongs(songs));
+          dispatch(setCurrentIndex(0))
+        }
+      };
+      fetch();
+    },0)
+  }, []);
+  
+  // get audio file from playerSongs
+  // audio play handler 1of3
   const playBtn = (title, index = 0) => {
-    const song = albumSongs.find((item) => item.title === title);
+    const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
     if (song) {
       audioRef.current.src = song.media;
@@ -31,9 +53,15 @@ function SongList() {
       dispatch(setPlayIcon(true));
     }
   };
+
+  // scroll to top when re-render
+  useEffect(()=>{
+    document.getElementById("scrollComponent").scrollTo(0,0)
+  })
+  
   return (
     <>
-      {albumSongs.length <= 0 ? (
+      {playerSongs.length <= 0 ? (
         <>
           <Shimmer />
         </>
@@ -45,7 +73,7 @@ function SongList() {
             </h1>
           </div>
           <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {albumSongs.map((item, index) => (
+            {playerSongs.map((item, index) => (
               <SongCard
                 key={index}
                 item={item}

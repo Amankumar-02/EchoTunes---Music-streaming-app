@@ -10,16 +10,24 @@ function Header() {
     dispatch(setMenuToggle(!menuToggle));
   };
 
+  const backForwEvent = (direction)=>{
+    if (direction === "left") {
+      window.history.back();
+    } else if (direction === "right") {
+      window.history.forward();
+    }
+  }
+
   return (
     <div className="px-6 py-2 md:py-4 flex justify-between items-center bg-[#121212]">
         <div className="flex items-center gap-2">
           <div className="md:hidden bg-black rounded-full px-2 py-1 cursor-pointer" onClick={menuToggleHandler}>
           <i className="ri-menu-2-line text-2xl"></i>
           </div>
-          <div className="hidden md:inline-block bg-black rounded-full px-1 cursor-pointer">
+          <div className="hidden md:inline-block bg-black rounded-full px-1 cursor-pointer" onClick={()=>{backForwEvent("left")}}>
             <i className="ri-arrow-left-s-line text-2xl"></i>
           </div>
-          <div className="hidden md:inline-block bg-black rounded-full px-1 cursor-pointer">
+          <div className="hidden md:inline-block bg-black rounded-full px-1 cursor-pointer" onClick={()=>{backForwEvent("right")}}>
             <i className="ri-arrow-right-s-line text-2xl"></i>
           </div>
         </div>

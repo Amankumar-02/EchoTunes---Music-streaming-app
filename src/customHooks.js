@@ -20,6 +20,15 @@ export const fetchData = async (url) => {
         console.error('Error fetching data:', error);
     }
 };
+export const fetchDataWithoutShuffle = async (url) => {
+    try {
+        const data = await fetch(url);
+        const response = await data.json();
+        return response
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 
 export const formatTime = (time) => {
     const minutes = Math.floor(time / 60);

@@ -12,7 +12,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
       <Route path='/' element={<Playlist/>}/>
-      <Route path='/songList/:songName' element={<SongList/>}/>
+      <Route path='/find/:songName' element={<SongList/>}/>
     </Route>
   )
 )
