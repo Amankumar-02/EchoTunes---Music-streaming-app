@@ -14,7 +14,7 @@ export const fetchData = async (url) => {
     try {
         const data = await fetch(url);
         const response = await data.json();
-        const shuffledSongs = shuffleArray(response);
+        const shuffledSongs = shuffleArray(response.data);
         return shuffledSongs
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -24,7 +24,7 @@ export const fetchDataWithoutShuffle = async (url) => {
     try {
         const data = await fetch(url);
         const response = await data.json();
-        return response
+        return response.data
     } catch (error) {
         console.error('Error fetching data:', error);
     }
