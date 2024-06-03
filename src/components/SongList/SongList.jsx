@@ -29,7 +29,7 @@ function SongList() {
   useEffect(() => {
     setTimeout(()=>{
       const fetch = async () => {
-        const songs = await fetchDataWithoutShuffle(`http://localhost:3000/find/${songName}`);
+        const songs = await fetchDataWithoutShuffle(`http://localhost:3000/media/find/${songName}`);
         if (songs) {
           dispatch(setPlayerSongs(songs));
           dispatch(setCurrentIndex(0))

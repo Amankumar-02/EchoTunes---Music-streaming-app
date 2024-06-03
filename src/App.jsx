@@ -28,12 +28,12 @@ function App() {
   // get data from server
   useEffect(() => {
     const fetch = async () => {
-      const songs = await fetchData("http://localhost:3000/songs/");
+      const songs = await fetchData("http://localhost:3000/media/songs/");
       if (songs) {
         dispatch(setSongs(songs));
         dispatch(setPlayerSongs(songs));
       }
-      const albums = await fetchData("http://localhost:3000/albums/");
+      const albums = await fetchData("http://localhost:3000/media/albums/");
       if (albums) {
         dispatch(setAlbums(albums));
       }

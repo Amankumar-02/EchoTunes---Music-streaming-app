@@ -25,15 +25,17 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
+import {userRouter} from './routes/user.route.js';
 import {mediaRouter} from './routes/media.route.js';
 
-app.use('/', mediaRouter);
+app.use('/auth/', userRouter);
+app.use('/media', mediaRouter);
 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
-    // throw new Error(404)
+    // throw new Error(404)c
 });
 
 // error handler

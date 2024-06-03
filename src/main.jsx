@@ -18,11 +18,11 @@ const router = createBrowserRouter(
 )
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <AudioProvider>
         <RouterProvider router={router} />
       </AudioProvider>
     </Provider>
-  </React.StrictMode>,
+  // </React.StrictMode>
 )
