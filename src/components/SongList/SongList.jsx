@@ -31,7 +31,7 @@ function SongList() {
       const fetch = async () => {
         const songs = await fetchDataWithoutShuffle(`http://localhost:3000/media/find/${songName}`);
         if (songs) {
-          dispatch(setPlayerSongs(songs));
+          dispatch(setPlayerSongs(songs.songs));
           dispatch(setCurrentIndex(0))
         }
       };

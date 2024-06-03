@@ -61,7 +61,7 @@ function Playlist() {
             </h1>
           </div>
           <div className="list cards flex flex-wrap bg-[#1C1C1C]">
-            {playerSongs.map((item, index) => (
+            {playerSongs.slice(0, 9).map((item, index) => (
               <SongCard
                 key={index}
                 item={item}

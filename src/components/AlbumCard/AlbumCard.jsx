@@ -14,7 +14,7 @@ function AlbumCard({item}) {
       <div className="w-[170px] md:w-[164px]">
         <div className="relative h-[170px] md:h-[164px] rounded-lg overflow-hidden">
           <img
-            src={item.songs[0].img}
+            src={item.img}
             alt=""
             className="h-full w-full object-cover"
           />

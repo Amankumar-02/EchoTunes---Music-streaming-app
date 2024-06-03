@@ -5,7 +5,12 @@ const albumsSchema = new Schema({
         type: String,
         required: true,
     },
-    songs: {
+    img: {
+        type: String,
+        required: true, 
+    },
+    songs: [],
+    songsId: {
         type: Schema.Types.ObjectId,
         ref: "Song"
     },
