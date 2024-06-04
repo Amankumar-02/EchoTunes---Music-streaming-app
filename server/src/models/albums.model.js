@@ -9,11 +9,10 @@ const albumsSchema = new Schema({
         type: String,
         required: true, 
     },
-    songs: [],
-    songsId: {
+    songs: [{
         type: Schema.Types.ObjectId,
-        ref: "Song"
-    },
+        ref: 'Song',
+    }],
 }, {timestamps:true});
 
-export const Album = mongoose.model("album", albumsSchema);
+export const Album = mongoose.model("Album", albumsSchema);
