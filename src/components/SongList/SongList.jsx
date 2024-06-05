@@ -36,7 +36,7 @@ function SongList() {
         }
       };
       fetch();
-    },0)
+    },10)
   }, []);
   
   // get audio file from playerSongs

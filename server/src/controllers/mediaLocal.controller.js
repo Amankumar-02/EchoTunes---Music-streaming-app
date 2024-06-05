@@ -20,6 +20,7 @@ export const readDirectory = async () => {
 };
 
 export const mediaSongs = AsyncHandler(async (req, res) => {
+    await readDirectory();
     if (!files) {
         return res.status(500).send('Error reading files');
     }
@@ -65,6 +66,7 @@ export const mediaSongs = AsyncHandler(async (req, res) => {
 });
 
 export const mediaAlbum = AsyncHandler(async (req, res) => {
+    await readDirectory();
     if (!files) {
         return res.status(500).send('Error reading files');
     }
@@ -87,9 +89,10 @@ export const mediaAlbum = AsyncHandler(async (req, res) => {
         console.error('Error reading file details:', error);
         res.status(500).json(new ApiError(500, "Error reading file details"))
     }
-})
+});
 
 export const findSongs = AsyncHandler(async (req, res) => {
+    await readDirectory();
     if (!files) {
         return res.status(500).send('Error reading files');
     }
@@ -134,4 +137,4 @@ export const findSongs = AsyncHandler(async (req, res) => {
         console.error('Error reading file details:', error);
         res.status(500).json(new ApiError(500, "Error reading file details"))
     }
-})
+});

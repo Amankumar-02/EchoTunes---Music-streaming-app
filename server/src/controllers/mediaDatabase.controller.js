@@ -4,6 +4,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { Song } from '../models/songs.model.js';
 import { Album } from '../models/albums.model.js';
 import fs from 'fs/promises';
+import fss from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -23,6 +24,7 @@ export const readDirectory = async () => {
 
 // song database document updater
 export const updateSongs = AsyncHandler(async (req, res) => {
+    await readDirectory();
     if (!files) {
         return res.status(500).send('Error reading files');
     }
@@ -78,7 +80,8 @@ export const updateSongs = AsyncHandler(async (req, res) => {
             }
         };
 
-        await Promise.all(files.map(processFolder));
+        const filteredFiles = files.filter(elem=>elem !== "All");
+        await Promise.all(filteredFiles.map(processFolder));
 
         res.status(200).json(new ApiResponse(200, { songs: fetchSongs, albums: fetchAlbums }, "All Songs"));
     } catch (error) {
@@ -131,3 +134,53 @@ export const findAlbum = AsyncHandler(async (req, res) => {
         res.status(500).json(new ApiError(500, "Error finding album"))
     }
 })
+
+// add new song 
+export const addSong = AsyncHandler(async (req, res) => {
+    await readDirectory();
+    const { newMediaTitle, newMediaTitleDesc, newMediaAlbum } = req.body;
+    const newSongPath = req.files.newSong[0];
+    const newSongCoverPath = req.files.newSongCover[0];
+    const sourceDir = path.join(__dirname, "../../", 'public', 'media', 'New');
+    const insideFolder = await fs.readdir(sourceDir);
+    const destDir = path.join(__dirname, "../../", 'public', 'media', newMediaAlbum);
+
+    if (files.includes(newMediaAlbum)) {
+        // Album folder already exists
+        if (!fss.existsSync(path.join(destDir, newSongPath.filename)) && !fss.existsSync(path.join(destDir, newSongCoverPath.filename))) {
+            try {
+                for (let item of insideFolder) {
+                    const srcPath = path.join(sourceDir, item);
+                    const destPath = path.join(destDir, item);
+                    await fs.rename(srcPath, destPath, (err) => {
+                        if (err) {
+                            console.error('Error moving file:', err);
+                        } else {
+                            console.log('File moved successfully');
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error('Error moving files:', err);
+            }
+        } else {
+            await fs.unlink(path.join(sourceDir, newSongPath.filename));
+            await fs.unlink(path.join(sourceDir, newSongCoverPath.filename));
+        }
+    } else {
+        // Create the new album folder
+        try {
+            await fs.mkdir(destDir, { recursive: true });
+            for (let item of insideFolder) {
+                const srcPath = path.join(sourceDir, item);
+                const destPath = path.join(destDir, item);
+                await fs.rename(srcPath, destPath);
+            }
+            console.log('Files moved successfully');
+        } catch (err) {
+            console.error('Error creating folder or moving files:', err);
+        }
+    }
+
+    res.status(200).json(new ApiResponse(200, [], "Media file added successfully"));
+});
