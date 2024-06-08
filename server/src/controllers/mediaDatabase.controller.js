@@ -80,7 +80,7 @@ export const updateSongs = AsyncHandler(async (req, res) => {
             }
         };
 
-        const filteredFiles = files.filter(elem=>elem !== "All");
+        const filteredFiles = files.filter(elem=>elem !== "New");
         await Promise.all(filteredFiles.map(processFolder));
 
         res.status(200).json(new ApiResponse(200, { songs: fetchSongs, albums: fetchAlbums }, "All Songs"));
@@ -151,7 +151,8 @@ export const addSong = AsyncHandler(async (req, res) => {
             try {
                 for (let item of insideFolder) {
                     const srcPath = path.join(sourceDir, item);
-                    const destPath = path.join(destDir, item);
+                    const extName = path.extname(item);
+                    const destPath = path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}${extName}`);
                     await fs.rename(srcPath, destPath, (err) => {
                         if (err) {
                             console.error('Error moving file:', err);
@@ -159,6 +160,7 @@ export const addSong = AsyncHandler(async (req, res) => {
                             console.log('File moved successfully');
                         }
                     });
+
                 }
             } catch (err) {
                 console.error('Error moving files:', err);
@@ -173,7 +175,8 @@ export const addSong = AsyncHandler(async (req, res) => {
             await fs.mkdir(destDir, { recursive: true });
             for (let item of insideFolder) {
                 const srcPath = path.join(sourceDir, item);
-                const destPath = path.join(destDir, item);
+                const extName = path.extname(item);
+                const destPath = path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}${extName}`);
                 await fs.rename(srcPath, destPath);
             }
             console.log('Files moved successfully');
@@ -182,5 +185,6 @@ export const addSong = AsyncHandler(async (req, res) => {
         }
     }
 
-    res.status(200).json(new ApiResponse(200, [], "Media file added successfully"));
+    // res.status(200).json(new ApiResponse(200, [], "Media file added successfully"));
+    await updateSongs(req, res);
 });
