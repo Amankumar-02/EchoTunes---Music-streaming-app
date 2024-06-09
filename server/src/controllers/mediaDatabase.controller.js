@@ -147,7 +147,7 @@ export const addSong = AsyncHandler(async (req, res) => {
 
     if (files.includes(newMediaAlbum)) {
         // Album folder already exists
-        if (!fss.existsSync(path.join(destDir, newSongPath.filename)) && !fss.existsSync(path.join(destDir, newSongCoverPath.filename))) {
+        if (!fss.existsSync(path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}.jpg`)) && !fss.existsSync(path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}.mp3`))) {
             try {
                 for (let item of insideFolder) {
                     const srcPath = path.join(sourceDir, item);
