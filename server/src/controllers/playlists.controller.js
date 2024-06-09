@@ -28,6 +28,26 @@ export const createPlaylist = AsyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, result, "playlist created successfully"))
 });
 
+export const soloCreatePlaylist = AsyncHandler(async(req, res)=>{
+    const {playlistName} = req.body;
+    const exist = await Playlist.findOne({ playlistTitle: playlistName });
+    if(exist){
+        return res.status(400).json(new ApiError(400, "Playlist is already exist"))
+    };
+    const result = await Playlist.create({
+        playlistTitle: playlistName,
+        coverImg: "https://notionthings.com/wp-content/uploads/2021/01/Random-Cover-Image-on-Page-Refresh-7-1024x680.jpeg",
+        owner: req.user?._id,
+    })
+    if(!result){
+        return res.status(400).json(new ApiError(400, "Error"))
+    }
+    await User.findByIdAndUpdate(req.user?._id, {
+        $addToSet: {playlists: result._id}
+    })
+    return res.status(200).json(new ApiResponse(200, result, "Playlist is created successfully"));
+});
+
 export const allPlaylists = AsyncHandler(async(req, res)=>{
     const playLists = await Playlist.find();
     if(!playLists || playLists.length === 0){
