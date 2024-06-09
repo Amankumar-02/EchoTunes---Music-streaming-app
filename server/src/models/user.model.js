@@ -7,6 +7,12 @@ const userSchema = new Schema({
     email:String,
     fullname:String,
     password:String,
+    playlists:[
+        {
+            type: Schema.Types.ObjectId,
+            ref:"Playlist",
+        }
+    ],
 }, {timestamps:true});
 
 // before user create encrypt the password

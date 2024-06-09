@@ -27,12 +27,14 @@ app.use(morgan("dev"));
 
 import {userRouter} from './routes/user.route.js';
 import {mediaRouter} from './routes/media.route.js';
+import {playlistRouter} from './routes/playlists.route.js';
 
 app.get("/", (req, res)=>{
     res.send("Hello World")
 })
 app.use('/auth/', userRouter);
 app.use('/media', mediaRouter);
+app.use('/savedPlaylist', playlistRouter);
 
 
 // catch 404 and forward to error handler
