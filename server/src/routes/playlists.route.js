@@ -9,4 +9,4 @@ export const playlistRouter = Router();
 playlistRouter.post("/createPlaylist", verifyJWT, createPlaylist);
 playlistRouter.post("/soloCreatePlaylist", verifyJWT, soloCreatePlaylist);
 playlistRouter.get("/allPlaylists", verifyJWT, allPlaylists);
-playlistRouter.post("/playlist/:playlistId", verifyJWT, playlistMedia);
+playlistRouter.get("/playlist/:playlistId", verifyJWT, playlistMedia);

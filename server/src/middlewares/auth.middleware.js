@@ -31,6 +31,27 @@ export const verifyJWT = AsyncHandler(async(req, res, next)=>{
     };
 });
 
+// this middlware pass the user data if login or not
+export const verifyOrNot = AsyncHandler(async(req, res, next)=>{
+    try {
+        const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        if (!accessToken) {
+            req.user = "";
+            next();
+        } else {
+            const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+            const authUser = await User.findById(decodedToken?._id).select('-password');
+            if (!authUser) {
+                res.status(401).json(new ApiError(401, "Invalid access token"))
+            };
+            req.user = authUser;
+            next();
+        }
+    } catch (error) {
+        res.status(401).json(new ApiError(401, "Invalid access token"));
+    };
+});
+
 export const isLoggedOut = AsyncHandler(async(req, res, next)=>{
     try {
         // take accessToken from cookies

@@ -5,6 +5,7 @@ import {ApiResponse} from '../utils/ApiResponse.js'
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 
+// create when song like btn trigger
 export const createPlaylist = AsyncHandler(async (req, res) => {
     const { songId, playlistName } = req.body;
     const song = await Song.findById(songId);
@@ -28,6 +29,7 @@ export const createPlaylist = AsyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, result, "playlist created successfully"))
 });
 
+// create when create playlist btn trigger
 export const soloCreatePlaylist = AsyncHandler(async(req, res)=>{
     const {playlistName} = req.body;
     const exist = await Playlist.findOne({ playlistTitle: playlistName });
@@ -48,6 +50,7 @@ export const soloCreatePlaylist = AsyncHandler(async(req, res)=>{
     return res.status(200).json(new ApiResponse(200, result, "Playlist is created successfully"));
 });
 
+// find all playlist against which user is create
 export const allPlaylists = AsyncHandler(async(req, res)=>{
     const playLists = await Playlist.find();
     if(!playLists || playLists.length === 0){
@@ -57,10 +60,14 @@ export const allPlaylists = AsyncHandler(async(req, res)=>{
     return res.status(200).json(new ApiResponse(200, filteredUsers, "All playlists"))
 });
 
+// find all playlist with playlistId
 export const playlistMedia = AsyncHandler(async(req, res)=>{
     const {playlistId} = req.params;
     const result = await Playlist.findById(playlistId).populate("personalisedSongs");
     if(!result){
+        return res.status(400).json(new ApiError(400, "Playlists not found"))
+    }
+    if(result?.owner.toString() !== req.user?._id.toString()){
         return res.status(400).json(new ApiError(400, "Playlists not found"))
     }
     return res.status(200).json(new ApiResponse(200, result, "Result"))

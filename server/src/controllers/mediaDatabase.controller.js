@@ -3,6 +3,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 import { ApiError } from '../utils/ApiError.js';
 import { Song } from '../models/songs.model.js';
 import { Album } from '../models/albums.model.js';
+import { Playlist } from '../models/playlists.model.js';
 import fs from 'fs/promises';
 import fss from 'fs';
 import path from 'path';
@@ -134,6 +135,19 @@ export const findAlbum = AsyncHandler(async (req, res) => {
         res.status(500).json(new ApiError(500, "Error finding album"))
     }
 })
+
+// find song
+export const findSong = AsyncHandler(async(req, res)=>{
+    const {songName} = req.body;
+    console.log(req.user)
+    const song = await Song.find({title : new RegExp(`${songName}`, 'i')});
+    const album = await Album.find({folderName : new RegExp(`${songName}`, 'i')});
+    const playlist = await Playlist.find({playlistTitle : new RegExp(`${songName}`, 'i'), owner: req.user?._id});
+    if(!song && !album && !playlist){
+        return res.status(400).json(new ApiError(400, "not found"));
+    };
+    return res.status(200).json(new ApiResponse(200, {songs: song.length!==0? song : null, albums: album.length!==0? album : null, playlists: playlist.length!==0? playlist : null}, "Found"))
+});
 
 // add new song 
 export const addSong = AsyncHandler(async (req, res) => {
