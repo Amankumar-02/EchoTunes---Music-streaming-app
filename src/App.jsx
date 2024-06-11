@@ -13,9 +13,11 @@ import {
   setCurrentIndex,
   setCurrentSong,
   setMediaInfo,
+  setLoginStatus,
 } from "./features/customStates/customStates";
 import { useDispatch, useSelector } from "react-redux";
 import { AudioContext } from "./context/audioContext";
+import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +85,26 @@ function App() {
       audio.removeEventListener("ended", resetPlayer);
     };
   }, [audioRef, currentIndex, dispatch, playerSongs]);
+
+  useEffect(()=>{
+    const checkUserLogin = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/auth/checkUserLoginOrNot",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      dispatch(setLoginStatus(response.data.data.status));
+      console.log(response.data.message)
+    } catch (error) {
+      console.log("Error:", error);
+    }}
+    checkUserLogin();
+}, [])
 
   return (
     <>

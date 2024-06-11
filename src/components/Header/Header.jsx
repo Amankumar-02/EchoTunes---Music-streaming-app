@@ -1,11 +1,14 @@
 import React from 'react'
 import "remixicon/fonts/remixicon.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setMenuToggle } from '../../features/customStates/customStates';
+import { setLoginStatus, setMenuToggle } from '../../features/customStates/customStates';
+import axios from 'axios';
 
 function Header() {
   const dispatch = useDispatch();
   const menuToggle = useSelector((state) => state.customState.menuToggle);
+  const {loginStatus} = useSelector(state=>state.customState);
+
   const menuToggleHandler = () => {
     dispatch(setMenuToggle(!menuToggle));
   };
@@ -16,6 +19,23 @@ function Header() {
     } else if (direction === "right") {
       window.history.forward();
     }
+  }
+  const logoutEventHandler = async (e)=>{
+    e.preventDefault();
+    try {
+      await axios.get(
+        "http://localhost:3000/auth/userlogout",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      dispatch(setLoginStatus(false))
+      } catch (error) {
+        console.log("Error:", error.response.data);
+        }
   }
 
   return (
@@ -32,13 +52,39 @@ function Header() {
           </div>
         </div>
         <div className="flex gap-2 md:gap-4">
-          <button className="font-bold text-gray-400 py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
-            Sign up
-          </button>
-          <button className="rounded-3xl font-bold bg-white text-black py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
-            Login
-          </button>
+        {!loginStatus? (
+          <>
+          <a href="/signup">
+            <button className="font-bold text-gray-400 py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
+              Sign up
+            </button>
+          </a>
+          <a href="/login">
+            <button className="rounded-3xl font-bold bg-white text-black py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
+              Login
+            </button>
+          </a>
+          </>
+        ) : (
+          <>
+            <button className="rounded-3xl font-bold bg-white text-black py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base" onClick={logoutEventHandler}>
+              Logout
+            </button>
+          </>
+        )}
         </div>
+        {/* <div className="flex gap-2 md:gap-4">
+          <a href="/signup">
+            <button className="font-bold text-gray-400 py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
+              Sign up
+            </button>
+          </a>
+          <a href="/login">
+            <button className="rounded-3xl font-bold bg-white text-black py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base">
+              Login
+            </button>
+          </a>
+        </div> */}
       </div>
   )
 }

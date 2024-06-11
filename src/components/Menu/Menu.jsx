@@ -23,7 +23,9 @@ function Menu() {
         <ul>
           <li className="flex gap-4 mb-4 items-center cursor-pointer">
             <i className="ri-home-4-line text-xl md:text-2xl"></i>
-            <div className="font-semibold hover:underline text-sm md:text-base">Home</div>
+            <a href="/">
+              <div className="font-semibold hover:underline text-sm md:text-base">Home</div>
+            </a>
           </li>
           <li className="flex gap-4 items-center cursor-pointer">
             <i className="ri-search-line text-xl md:text-2xl"></i>

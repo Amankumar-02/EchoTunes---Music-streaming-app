@@ -18,7 +18,11 @@ app.use(session({
 }));
 app.use(flash());
 
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173'],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));

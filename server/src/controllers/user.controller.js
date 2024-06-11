@@ -2,6 +2,7 @@ import {User} from '../models/user.model.js';
 import {AsyncHandler} from '../utils/AsyncHandler.js';
 import {ApiResponse} from '../utils/ApiResponse.js';
 import {ApiError} from '../utils/ApiError.js';
+import jwt from 'jsonwebtoken';
 
 const generateAccessToken = async(userId)=>{
     try {
@@ -219,3 +220,33 @@ export const updateAccountDetails = AsyncHandler(async(req, res)=>{
     ).select('-password');
     return res.status(200).json(new ApiResponse(200, userData, "Account details update successfully"));
 });
+
+export const checkUserLoginOrNot = AsyncHandler(async(req, res)=>{
+    try {
+        // take accessToken from cookies
+        const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        if (!accessToken) {
+            // res.status(401)
+            // .json(new ApiError(401, "Unauthorized request User is loggedOut"))
+            res.status(200).json(new ApiResponse(200, {status: false}, "User is logged out"))
+            // .redirect('/')
+        } else {
+
+            // verify the access token is match with server access token
+            const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+            // get user dets.
+            const authUser = await User.findById(decodedToken?._id).select('-password');
+            
+            // check the access token user is available in database
+            if (!authUser) {
+                res.status(401).json(new ApiError(401, "Invalid access token"))
+            };
+            // req.user = authUser;
+            // next();
+            res.status(200).json(new ApiResponse(200, {status: true}, "user is logged in"))
+        }
+    } catch (error) {
+        res.status(401).json(new ApiError(401, "Invalid access token"));
+    };
+})

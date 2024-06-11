@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { Playlist, SongList } from './components/index.js';
+import { Playlist, SongList, Login, SignUp } from './components/index.js';
 import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store.js';
@@ -13,6 +13,8 @@ const router = createBrowserRouter(
     <Route path='/' element={<App/>}>
       <Route path='/' element={<Playlist/>}/>
       <Route path='/find/:songName' element={<SongList/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/signup' element={<SignUp/>}/>
     </Route>
   )
 )

@@ -139,7 +139,6 @@ export const findAlbum = AsyncHandler(async (req, res) => {
 // find song
 export const findSong = AsyncHandler(async(req, res)=>{
     const {songName} = req.body;
-    console.log(req.user)
     const song = await Song.find({title : new RegExp(`${songName}`, 'i')});
     const album = await Album.find({folderName : new RegExp(`${songName}`, 'i')});
     const playlist = await Playlist.find({playlistTitle : new RegExp(`${songName}`, 'i'), owner: req.user?._id});
