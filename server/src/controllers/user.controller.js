@@ -244,7 +244,7 @@ export const checkUserLoginOrNot = AsyncHandler(async(req, res)=>{
             };
             // req.user = authUser;
             // next();
-            res.status(200).json(new ApiResponse(200, {status: true}, "user is logged in"))
+            res.status(200).json(new ApiResponse(200, {status: true, resource: authUser}, "user is logged in"))
         }
     } catch (error) {
         res.status(401).json(new ApiError(401, "Invalid access token"));

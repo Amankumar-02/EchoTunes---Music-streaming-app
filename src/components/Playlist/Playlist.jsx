@@ -60,7 +60,7 @@ function Playlist() {
               EchoTunes Musics
             </h1>
           </div>
-          <div className="list cards flex flex-wrap bg-[#1C1C1C]">
+          <div className="ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
             {playerSongs.slice(0, 9).map((item, index) => (
               <SongCard
                 key={index}
@@ -84,7 +84,7 @@ function Playlist() {
               EchoTunes Playlists
             </h1>
           </div>
-          <div className="list cards flex flex-wrap bg-[#1C1C1C]">
+          <div className="ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
             {albums.map((item, index) => (
               <AlbumCard key={index} item={item} />
             ))}

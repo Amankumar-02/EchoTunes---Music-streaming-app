@@ -35,6 +35,7 @@ function SignUp() {
       navigate("/");
     }
   }, [loginStatus, navigate]);
+  
   return (
     <>
       <div className="flex items-center justify-center px-4 py-6 flex-col gap-2">

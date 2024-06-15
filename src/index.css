@@ -43,7 +43,12 @@ body {
   opacity: 1;
   visibility: visible;
 }
-
+.playBtnForm{
+  visibility: hidden;
+}
+.card:hover .playBtnForm{
+  visibility: visible;
+}
 input[type="range"] {
   -webkit-appearance: none;
   background: transparent;

@@ -13,8 +13,9 @@ import {
 import { SongCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
-function SongList() {
+function UserSongList() {
   // accessing the url params
   const {songName} = useParams();
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function SongList() {
   const { playerSongs } = useSelector((state) => state.test);
   // custom states
   const currentSong = useSelector((state) => state.customState.currentSong);
-  
+  const [playListHeading, setPlaylistHeading] = useState("");
   const [tempData, setTempData] = useState([]);
   const [tempMsg, setTempMsg] = useState(null);
 
@@ -32,17 +33,29 @@ function SongList() {
   useEffect(() => {
     setTimeout(()=>{
       const fetch = async () => {
-        const songs = await fetchDataWithoutShuffle(`http://localhost:3000/media/find/${songName}`);
-        if (songs) {
-          dispatch(setPlayerSongs(songs.songs));
-          dispatch(setCurrentIndex(0))
-          setTempData(songs.songs)
-        }else{
-          setTempMsg("Playlists not found")
-        }
+        try {
+            const response = await axios.get(
+              `http://localhost:3000/savedPlaylist/playlist/${songName}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
+            );
+            if(response){
+                dispatch(setPlayerSongs(response.data.data.personalisedSongs));
+                dispatch(setCurrentIndex(0));
+                setPlaylistHeading(response.data.data.playlistTitle);
+                setTempData(response.data.data.personalisedSongs);
+            };
+          } catch (error) {
+            console.log("Error:", error.response.data.message);
+            setTempMsg(error.response.data.message)
+          }
       };
       fetch();
-    },10)
+    },12)
   }, []);
   
   // get audio file from playerSongs
@@ -71,14 +84,14 @@ function SongList() {
         <>
           {/* <Shimmer /> */}
           <div className="flex pt-20 items-center justify-center">
-            {tempMsg}
+            {tempMsg || "Playlist is empty"}
           </div>
         </>
       ) : (
         <div id="section1">
           <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
             <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">
-            Playlist - {songName}
+            User Playlist - {playListHeading}
             </h1>
           </div>
           <div className="ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
@@ -98,4 +111,4 @@ function SongList() {
   );
 }
 
-export default SongList;
+export default UserSongList;
