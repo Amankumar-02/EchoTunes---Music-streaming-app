@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { Playlist, SongList, UserSongList, Login, SignUp, SearchedMediaFile, AllUserPlayLists } from './components/index.js';
+import { Playlist, SongList, UserSongList, Login, SignUp, SearchedMediaFile, AllUserPlayLists, UserProfile } from './components/index.js';
 import {RouterProvider, createBrowserRouter, createRoutesFromElements, Route} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store.js';
@@ -18,6 +18,7 @@ const router = createBrowserRouter(
       <Route path='/signup' element={<SignUp/>}/>
       <Route path='/search/:searchName' element={<SearchedMediaFile/>}/>
       <Route path='/allUserPlaylists' element={<AllUserPlayLists/>}/>
+      <Route path='/userProfile' element={<UserProfile/>}/>
     </Route>
   )
 )

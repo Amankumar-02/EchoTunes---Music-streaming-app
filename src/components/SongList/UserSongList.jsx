@@ -28,6 +28,7 @@ function UserSongList() {
   const [playListHeading, setPlaylistHeading] = useState("");
   const [tempData, setTempData] = useState([]);
   const [tempMsg, setTempMsg] = useState(null);
+  const [songEditStatus, setSongEditStatus] = useState(false);
 
   // get filtered albumSongs from server then setPlayerSongs
   useEffect(() => {
@@ -56,7 +57,7 @@ function UserSongList() {
       };
       fetch();
     },12)
-  }, []);
+  }, [songEditStatus]);
   
   // get audio file from playerSongs
   // audio play handler 1of3
@@ -94,7 +95,7 @@ function UserSongList() {
             User Playlist - {playListHeading}
             </h1>
           </div>
-          <div className="ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+          <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
             {playerSongs.map((item, index) => (
               <SongCard
                 key={index}
@@ -102,6 +103,7 @@ function UserSongList() {
                 index={index}
                 playBtn={playBtn}
                 currentSong={currentSong}
+                setSongEditStatus={setSongEditStatus}
               />
             ))}
           </div>

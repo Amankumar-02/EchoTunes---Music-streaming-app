@@ -67,7 +67,7 @@ function Header() {
           <i className="ri-arrow-right-s-line text-2xl"></i>
         </div>
       </div>
-      <div className="flex gap-2 md:gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         {!loginStatus ? (
           <>
               <button className="font-bold text-gray-400 py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base" onClick={()=>{navigate("/signup")}}>
@@ -79,6 +79,9 @@ function Header() {
           </>
         ) : (
           <>
+            <div className=" rounded-3xl px-3 md:px-4 hover:scale-[1.06]" onClick={()=>{navigate("/userProfile")}}>
+              <i className="ri-file-user-line cursor-pointer text-xl md:text-3xl text-gray-400"></i>
+            </div>
             <button
               className="rounded-3xl font-bold bg-white text-black py-1 md:py-2 px-3 md:px-6 hover:scale-[1.06] text-sm md:text-base"
               onClick={logoutEventHandler}

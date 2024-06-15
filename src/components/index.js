@@ -13,5 +13,6 @@ import SignUp from "./SignUp/SignUp";
 import SearchedMediaFile from "./SearchedMediaFile/SearchedMediaFile";
 import UserPlaylistCard from './UserPlaylistCard/UserPlaylistCard'
 import AllUserPlayLists from "./AllUserPlayLists/AllUserPlayLists";
+import UserProfile from "./UserProfile/UserProfile";
 
-export { Menu, Playlist, Header, Footer, SongCard, AlbumCard, MusicPlayer, SongList, UserSongList, Shimmer, Login, SignUp, SearchedMediaFile, UserPlaylistCard, AllUserPlayLists};
+export { Menu, Playlist, Header, Footer, SongCard, AlbumCard, MusicPlayer, SongList, UserSongList, Shimmer, Login, SignUp, SearchedMediaFile, UserPlaylistCard, AllUserPlayLists, UserProfile};

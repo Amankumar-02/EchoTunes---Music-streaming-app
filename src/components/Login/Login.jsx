@@ -43,7 +43,7 @@ function Login() {
         <h1 className="text-3xl mb-2 -tracking-tight">Log in to EchoTunes</h1>
         <form
           onSubmit={loginEventHandler}
-          className="flex flex-col gap-1 w-1/3"
+          className="flex flex-col gap-1 w-[90%] md:w-1/3"
         >
           <label htmlFor="email_usernameId" className="text-sm font-semibold">
             User Name
@@ -72,7 +72,6 @@ function Login() {
           />
         </form>
       </div>
-      s
     </>
   );
 }

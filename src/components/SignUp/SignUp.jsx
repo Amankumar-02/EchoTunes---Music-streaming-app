@@ -45,7 +45,7 @@ function SignUp() {
         </h1>
         <form
           onSubmit={signupEventHandler}
-          className="flex flex-col gap-1 w-1/3"
+          className="flex flex-col gap-1 w-[90%] md:w-1/3"
         >
           <label htmlFor="userNameId" className="text-sm font-semibold">
             User Name

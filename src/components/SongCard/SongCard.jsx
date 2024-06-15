@@ -3,7 +3,7 @@ import "remixicon/fonts/remixicon.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-function SongCard({ item, index, playBtn, currentSong }) {
+function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null }) {
   const [saveMore, setSaveMore] = useState(false);
   const [playlistValue, setPlaylistValue] = useState("");
   const [userData, setUserData] = useState([]);
@@ -73,8 +73,11 @@ function SongCard({ item, index, playBtn, currentSong }) {
       );
       console.log(response.data.message);
       setSongRemoved((prev) => !prev);
+      if (setSongEditStatus) {
+        setSongEditStatus((prev) => !prev);
+      }
     } catch (error) {
-      console.log("Error:", error.response.data.message);
+      console.log("Error:", error);
     }
   };
 

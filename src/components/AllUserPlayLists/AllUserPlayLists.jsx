@@ -54,7 +54,7 @@ function AllUserPlayLists() {
                     <span className="underline">{searchName}</span>
                   </h1>
                 </div>
-                <div className="ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+                <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
                   {playlists.map((item, index) => (
                     <UserPlaylistCard key={index} item={item} setUpdates={setUpdates} />
                   ))}
