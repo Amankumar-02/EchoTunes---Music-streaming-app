@@ -116,7 +116,13 @@ function SearchedMediaFile() {
               </div>
             </>
           )}
-          {loginStatus === false || !playlists ? null : (
+          {loginStatus === false || !playlists ? 
+          (<>{songs || albums ? null : (<>
+            <div className="flex pt-20 items-center justify-center">
+              Please Login First
+            </div>
+          </>)}</>)
+           : (
             <>
               <div id="section13">
                 <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">

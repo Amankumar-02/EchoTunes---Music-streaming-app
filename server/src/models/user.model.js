@@ -7,6 +7,7 @@ const userSchema = new Schema({
     email:String,
     fullname:String,
     password:String,
+    coverimage: String,
     playlists:[
         {
             type: Schema.Types.ObjectId,

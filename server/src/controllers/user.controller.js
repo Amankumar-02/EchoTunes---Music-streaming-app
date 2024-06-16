@@ -250,3 +250,44 @@ export const checkUserLoginOrNot = AsyncHandler(async(req, res)=>{
         res.status(401).json(new ApiError(401, "Invalid access token"));
     };
 })
+
+export const loginUserDets = AsyncHandler(async(req, res)=>{
+    try {
+        // take accessToken from cookies
+        const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        if (!accessToken) {
+            // res.status(401)
+            // .json(new ApiError(401, "Unauthorized request User is loggedOut"))
+            res.status(200).json(new ApiResponse(200, {status: false}, "User is logged out"))
+            // .redirect('/')
+        } else {
+
+            // verify the access token is match with server access token
+            const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+            // get user dets.
+            const authUser = await User.findById(decodedToken?._id).select('-password').populate(["songs", "playlists"]);
+            
+            // check the access token user is available in database
+            if (!authUser) {
+                res.status(401).json(new ApiError(401, "Invalid access token"))
+            };
+            // req.user = authUser;
+            // next();
+            res.status(200).json(new ApiResponse(200, {status: true, resource: authUser}, "user is logged in"))
+        }
+    } catch (error) {
+        res.status(401).json(new ApiError(401, "Invalid access token"));
+    };
+})
+
+export const updateCoverImage = AsyncHandler(async(req, res)=>{
+    const {coverimage} = req.body;
+    const result = await User.findByIdAndUpdate(req.user?._id, {
+        coverimage: coverimage
+    });
+    if(!result){
+        return res.status(401).json(new ApiError(401, "CoverImg is not change"));
+    };
+    return res.status(200).json(new ApiResponse(200, result, "CoverImg updated successfully"))
+});

@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { UserPlaylistCard } from "../index";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setIsPlaying,
-  setCurrentIndex,
-  setCurrentSong,
-  setPlayIcon,
-  setMediaInfo,
-} from "../../features/customStates/customStates";
 
 function AllUserPlayLists() {
-    const { searchName } = useParams();
     const [playlists, setPlaylists] = useState(null);
-    const dispatch = useDispatch();
     const { loginStatus } = useSelector(
         (state) => state.customState
       );
@@ -51,14 +41,17 @@ function AllUserPlayLists() {
                 <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
                   <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">
                     All User Playlists
-                    <span className="underline">{searchName}</span>
                   </h1>
                 </div>
+                {playlists.length <= 0 ? (<>
+                  <div className="text-center pt-10">No playlist added yet</div>
+                </>) : (<>
                 <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
                   {playlists.map((item, index) => (
                     <UserPlaylistCard key={index} item={item} setUpdates={setUpdates} />
                   ))}
                 </div>
+                </>)}
               </div>
             </>
           )}
