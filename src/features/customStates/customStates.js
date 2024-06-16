@@ -12,6 +12,7 @@ const initialState = {
     seekBar: 0,
     volumeBar: 100,
     loginStatus: false,
+    currentPlayingSong: ""
 }
 
 export const customStatesSlice = createSlice({
@@ -51,9 +52,12 @@ export const customStatesSlice = createSlice({
         setLoginStatus : (state, action)=>{
             state.loginStatus = action.payload;
         },
+        setCurrentPlayingSong : (state, action)=>{
+            state.currentPlayingSong = action.payload;
+        },
     }
 })
 
-export const {setMenuToggle, setCurrentIndex, setCurrentSong, setIsPlaying, setPlayIcon, setMediaInfo, setMediaStart, setMediaEnd, setSeekBar, setVolumeBar, setLoginStatus} = customStatesSlice.actions
+export const {setMenuToggle, setCurrentIndex, setCurrentSong, setIsPlaying, setPlayIcon, setMediaInfo, setMediaStart, setMediaEnd, setSeekBar, setVolumeBar, setLoginStatus, setCurrentPlayingSong} = customStatesSlice.actions
 
 export default customStatesSlice.reducer

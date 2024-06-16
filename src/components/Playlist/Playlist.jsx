@@ -7,6 +7,7 @@ import {
   setCurrentSong,
   setPlayIcon,
   setMediaInfo,
+  setCurrentPlayingSong,
 } from "../../features/customStates/customStates";
 import { SongCard, AlbumCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
@@ -32,6 +33,7 @@ function Playlist() {
   const playBtn = (title, index = 0) => {
     const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
+    dispatch(setCurrentPlayingSong(song.media));
     if (song) {
       audioRef.current.src = song.media;
       audioRef.current.play();

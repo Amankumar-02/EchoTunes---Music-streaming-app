@@ -9,6 +9,7 @@ import {
   setMediaInfo,
   setSeekBar,
   setVolumeBar,
+  setCurrentPlayingSong,
 } from "../../features/customStates/customStates";
 import { AudioContext } from "../../context/audioContext";
 
@@ -19,16 +20,15 @@ function MusicPlayer() {
   // state with copy of songs
   const { playerSongs } = useSelector((state) => state.test);
   // custom states
-  const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar } = useSelector((state) => state.customState);
+  const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar, currentPlayingSong } = useSelector((state) => state.customState);
   const [volIcon, setVolIcon] = useState(false);
-  // const [currentPlayingSong, setCurrentPlayingSong] = useState("");
 
   // get audio file from playerSongs
   // audio play handler 1of3
   const playBtn = (title, index = 0) => {
     const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
-    // setCurrentPlayingSong(song.media);
+    dispatch(setCurrentPlayingSong(song.media));
     if (song) {
       audioRef.current.src = song.media;
       audioRef.current.play();
@@ -94,19 +94,19 @@ function MusicPlayer() {
     }
   };
 
-  // const downloadMediaEventHandler = ()=>{
-  //   if(currentPlayingSong.length <= 0){ return null}; 
-  //   const link = document.createElement('a');
-  //   link.href = currentPlayingSong;
-  //   link.download = mediaInfo;
-  //   link.target = "_blank"
-  //   document.body.appendChild(link);
-  //   audioRef.current.pause();
-  //   dispatch(setIsPlaying(false));
-  //   dispatch(setPlayIcon(false));
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }
+  const downloadMediaEventHandler = ()=>{
+    if(currentPlayingSong.length <= 0){ return null}; 
+    const link = document.createElement('a');
+    link.href = currentPlayingSong;
+    link.download = mediaInfo;
+    link.target = "_blank"
+    document.body.appendChild(link);
+    audioRef.current.pause();
+    dispatch(setIsPlaying(false));
+    dispatch(setPlayIcon(false));
+    link.click();
+    document.body.removeChild(link);
+  }
   return (
     <>
       <div className="m-2 bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2">
@@ -139,7 +139,7 @@ function MusicPlayer() {
             // defaultValue="50"
             className={volIcon ? "inline-block" : "hidden"}
           />
-          {/* <i className="ri-download-2-line text-2xl text-black cursor-pointer hover:scale-[1.2]" onClick={downloadMediaEventHandler}></i> */}
+          <i className="ri-download-2-line text-2xl text-black cursor-pointer hover:scale-[1.2]" onClick={downloadMediaEventHandler}></i>
         </div>
         <div className="flex justify-between items-center gap-4">
           <div className="text-black font-semibold">{mediaStart}</div>

@@ -8,6 +8,7 @@ import {SongCard} from '../index';import {
   setCurrentSong,
   setPlayIcon,
   setMediaInfo,
+  setCurrentPlayingSong,
 } from "../../features/customStates/customStates";
 import { AudioContext } from "../../context/audioContext";
 import { setPlayerSongs } from "../../features/test/test";
@@ -92,6 +93,7 @@ function UserProfile() {
   const playBtn = (title, index = 0) => {
     const song = playerSongs.find((item) => item.title === title);
     dispatch(setCurrentIndex(index));
+    dispatch(setCurrentPlayingSong(song.media));
     if (song) {
       audioRef.current.src = song.media;
       audioRef.current.play();
