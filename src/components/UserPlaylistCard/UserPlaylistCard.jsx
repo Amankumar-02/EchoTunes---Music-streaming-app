@@ -117,7 +117,10 @@ function UserPlaylistCard({ item, setUpdates }) {
                     editPlaylistNameEventHandler(item._id);
                   }}
                 ></i>
-                <i className="ri-close-line cursor-pointer text-lg hover:scale-[1.2]" onClick={()=>{setEditToggler(false)}}></i>
+                <i className="ri-close-line cursor-pointer text-lg hover:scale-[1.2]" onClick={()=>{
+                  setEditToggler(false);
+                  clearTimeout(timeOutFunc);
+                  }}></i>
               </div>
             </div>
           </>

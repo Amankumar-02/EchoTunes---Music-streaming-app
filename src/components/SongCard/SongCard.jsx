@@ -30,6 +30,12 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
     fetchUserData();
   }, [saveMore, playlistValue, songRemoved]);
 
+  const songSaveTimeOutFunc = ()=>{
+    setTimeout(()=>{
+      setSaveMore(false);
+    }, 20000);
+  };
+
   const songSaveEventHandler = async (e, id) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -57,6 +63,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
     }
     setPlaylistValue("");
     setSaveMore(false);
+    clearTimeout(songSaveTimeOutFunc);
   };
 
   const removePlaylistSongEventHandler = async (songIdd) => {
@@ -82,7 +89,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
   };
 
   return (
-    <div className="card p-2 md:p-4 hover:bg-[#181818] rounded-lg" onMouseLeave={()=>{setTimeout(()=>{setSaveMore(false)}, 20000)}}>
+    <div className="card p-2 md:p-4 hover:bg-[#181818] rounded-lg" onMouseLeave={()=>{songSaveTimeOutFunc()}} onMouseOver={()=>{clearTimeout(songSaveTimeOutFunc)}}>
       <div className="w-[170px] md:w-[164px]">
         <div className="relative h-[170px] md:h-[164px] rounded-lg overflow-hidden">
           <img src={item.img} alt="" className="h-full w-full object-cover" />
@@ -106,6 +113,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
                     className={`playBtn absolute right-2 top-2 rounded-full text-red-500 bg-white px-1 cursor-pointer`}
                     onClick={() => {
                       removePlaylistSongEventHandler(item._id);
+                      clearTimeout(songSaveTimeOutFunc);
                     }}
                   >
                     <i className="ri-heart-fill text-xl hover:text-red-700"></i>

@@ -12,6 +12,12 @@ function Menu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
+  const searchTimeOutFunc = ()=>{
+    setTimeout(()=>{
+      setSearchToggle(true);
+    }, 20000)
+  };
+
   const menuToggleHandler = ()=>{
     dispatch(setMenuToggle(!menuToggle))
   }
@@ -22,13 +28,14 @@ function Menu() {
     navigate(`/search/${searchValue}`);
     setSearchInputValue("");
     setSearchToggle(true);
+    clearTimeout(searchTimeOutFunc);
   };
 
   return (
     <div className={`${menuToggle? "inline-block absolute top-0 left-0 z-10 bg-black pe-2 w-[50vw]" : "hidden"} md:inline-block md:relative md:z-0 md:pe-0 md:w-[25vw] md:bg-transparent m-2 h-[77vh] rounded-lg overflow-hidden`}>
       <div className="homeSection rounded-lg py-3 lg:py-4 px-4 lg:px-6 bg-[#121212] mb-2">
         <div className="logo mb-4 text-lg flex justify-between items-center font-semibold cursor-pointer">
-          <p>EchoTunes</p>
+          <p onClick={()=>{navigate('/')}}>EchoTunes</p>
           <div className="md:hidden bg-black rounded-full px-2 py-1 cursor-pointer w-fit" onClick={menuToggleHandler}>
           <i className="ri-close-line text-xl md:text-2xl"></i>
           </div>
@@ -41,12 +48,18 @@ function Menu() {
           <li className="flex gap-4 items-center cursor-pointer">
             <i className="ri-search-line text-xl md:text-2xl"></i>
             {searchToggle? (<>
-            <div className="font-semibold hover:underline text-sm md:text-base" onClick={()=>{setSearchToggle(prev=>!prev)}}>Search</div>
+            <div className="font-semibold hover:underline text-sm md:text-base" onClick={()=>{
+              setSearchToggle(prev=>!prev);
+              searchTimeOutFunc();
+              }}>Search</div>
             </>) : (<>
             <form onSubmit={searchEventHandler} className="w-full">
               <input type="text" value={searchInputValue} onChange={(e)=>{setSearchInputValue(e.target.value)}} placeholder="Search Input" className=" px-1 md:px-2 py-1 w-full rounded-lg bg-transparent border border-gray-500 text-sm" name="songName"/>
             </form>
-            <i className="ri-close-fill" onClick={()=>{setSearchToggle(prev=>!prev)}}></i>
+            <i className="ri-close-fill" onClick={()=>{
+              setSearchToggle(prev=>!prev);
+              clearTimeout(searchTimeOutFunc);
+              }}></i>
             </>)}
           </li>
         </ul>
