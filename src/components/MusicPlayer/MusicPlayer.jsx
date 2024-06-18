@@ -20,7 +20,7 @@ function MusicPlayer() {
   // state with copy of songs
   const { playerSongs } = useSelector((state) => state.test);
   // custom states
-  const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar, currentPlayingSong } = useSelector((state) => state.customState);
+  const { currentIndex, currentSong, isPlaying, playIcon, mediaInfo, mediaStart, mediaEnd, seekBar, volumeBar, currentPlayingSong, loginStatus } = useSelector((state) => state.customState);
   const [volIcon, setVolIcon] = useState(false);
 
   // get audio file from playerSongs
@@ -139,7 +139,9 @@ function MusicPlayer() {
             // defaultValue="50"
             className={volIcon ? "inline-block" : "hidden"}
           />
+          {loginStatus === true ? (<>
           <i className="ri-download-2-line text-2xl text-black cursor-pointer hover:scale-[1.2]" onClick={downloadMediaEventHandler}></i>
+          </>) : null}
         </div>
         <div className="flex justify-between items-center gap-4">
           <div className="text-black font-semibold">{mediaStart}</div>

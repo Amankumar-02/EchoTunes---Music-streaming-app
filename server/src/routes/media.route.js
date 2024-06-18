@@ -2,7 +2,7 @@ import { Router } from "express";
 // import {mediaSongs, mediaAlbum, findSongs} from '../controllers/mediaLocal.controller.js';
 import {updateSongs, fetchSongs, fetchAlbums, findAlbum, findSong, addSong} from '../controllers/mediaDatabase.controller.js';
 import { upload, upload2, upload3 } from "../middlewares/multer.middleware.js";
-import { isLoggedOut, verifyOrNot } from "../middlewares/auth.middleware.js";
+import { isLoggedOut, verifyJWT, verifyOrNot } from "../middlewares/auth.middleware.js";
 
 export const mediaRouter = Router();
 
@@ -20,4 +20,4 @@ mediaRouter.get("/find/:songId", findAlbum);
 mediaRouter.post("/findSong", verifyOrNot, findSong);
 
 // mediaRouter.post("/addMedia", isLoggedOut, upload2.fields('newSong', 'newSongCover'), addSong)
-mediaRouter.post("/addMedia", isLoggedOut, upload2.fields([{ name: 'newSong', maxCount: 1 }, { name: 'newSongCover', maxCount: 1 }]), addSong)
+mediaRouter.post("/addMedia", verifyJWT, upload2.fields([{ name: 'newSong', maxCount: 1 }, { name: 'newSongCover', maxCount: 1 }]), addSong)
