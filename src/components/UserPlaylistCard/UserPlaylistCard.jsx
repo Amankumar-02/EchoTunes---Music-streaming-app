@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "remixicon/fonts/remixicon.css";
 import axios from "axios";
 
 function UserPlaylistCard({ item, setUpdates }) {
+  console.log(item)
   const navigate = useNavigate();
   const [editToggler, setEditToggler] = useState(false);
   const [inputValue, setInputValue] = useState(item.playlistTitle);
   const [coverImgUrl, setCoverImgUrl] = useState("");
+  const [randomColor, setRandomColor] = useState("");
+
+  // random color generator
+  useEffect(() => {
+    setRandomColor(Math.floor(Math.random() * 999999));
+  }, []);
 
   const timeOutFunc = () => {
     setTimeout(() => {
@@ -69,11 +76,25 @@ function UserPlaylistCard({ item, setUpdates }) {
     >
       <div className="w-[170px] md:w-[164px]">
         <div className="relative h-[170px] md:h-[164px] rounded-lg overflow-hidden">
-          <img
+        {item?.coverImg !== "noImg" ? (
+                  <>
+                    <img src={item?.coverImg} alt="" className="h-full w-full object-cover"/>
+                  </>
+                ) : (
+                  <>
+                    <div
+                      className={`h-full w-full flex items-center justify-center text-[80px]`}
+                      style={{ backgroundColor: "#" + randomColor }}
+                    >
+                      {item.playlistTitle?.slice(0, 1)}
+                    </div>
+                  </>
+                )}
+          {/* <img
             src={item.coverImg}
             alt=""
             className="h-full w-full object-cover"
-          />
+          /> */}
         </div>
 
         {editToggler ? (
@@ -109,6 +130,7 @@ function UserPlaylistCard({ item, setUpdates }) {
                   className="w-full outline-none rounded-lg px-1 text-sm bg-transparent border mt-2 placeholder:text-xs"
                   placeholder="Cover Img - Only URL"
                 />
+                <input type="submit" className="hidden" />
               </form>
               <div className="flex flex-col items-center justify-center">
                 <i
@@ -132,7 +154,7 @@ function UserPlaylistCard({ item, setUpdates }) {
                 e.stopPropagation();
               }}
             >
-              <h2>{item.playlistTitle}</h2>
+              <h2 style={{overflowWrap: "anywhere"}}>{item.playlistTitle} <span className="text-gray-400 text-xs">{item?.personalisedSongs.length ? ` - (${item?.personalisedSongs.length})` : null}</span></h2>
               <div className="flex items-center gap-3">
                 <i
                   className="ri-edit-2-line cursor-pointer text-lg hover:scale-[1.2]"

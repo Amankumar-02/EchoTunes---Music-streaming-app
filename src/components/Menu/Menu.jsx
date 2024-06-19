@@ -4,11 +4,13 @@ import { menuLinks } from '../../utils';
 import { useSelector, useDispatch } from "react-redux";
 import {setMenuToggle} from '../../features/customStates/customStates';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Menu() {
-  const menuToggle = useSelector(state=>state.customState.menuToggle);
+  const {menuToggle, loginStatus} = useSelector(state=>state.customState);
   const [searchToggle, setSearchToggle] = useState(true);
   const [searchInputValue, setSearchInputValue] = useState("");
+  const [createPlaylistToggle, setCreatePlaylistToggle] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -31,6 +33,26 @@ function Menu() {
     clearTimeout(searchTimeOutFunc);
   };
 
+  const createPlaylistEventHandler = async(e)=>{
+    e.preventDefault();
+    try {
+      const data = new FormData(e.target).get('playlistName');
+      const response = await axios.post(
+        "http://localhost:3000/savedPlaylist/soloCreatePlaylist",
+        {playlistName : data},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      setCreatePlaylistToggle(false);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+
   return (
     <div className={`${menuToggle? "inline-block absolute top-0 left-0 z-10 bg-black pe-2 w-[50vw]" : "hidden"} md:inline-block md:relative md:z-0 md:pe-0 md:w-[25vw] md:bg-transparent m-2 h-[77vh] rounded-lg overflow-hidden`}>
       <div className="homeSection rounded-lg py-3 lg:py-4 px-4 lg:px-6 bg-[#121212] mb-2">
@@ -49,7 +71,8 @@ function Menu() {
             <i className="ri-search-line text-xl md:text-2xl"></i>
             {searchToggle? (<>
             <div className="font-semibold hover:underline text-sm md:text-base" onClick={()=>{
-              setSearchToggle(prev=>!prev);
+              setCreatePlaylistToggle(false);
+              setSearchToggle(false);
               searchTimeOutFunc();
               }}>Search</div>
             </>) : (<>
@@ -57,7 +80,7 @@ function Menu() {
               <input type="text" value={searchInputValue} onChange={(e)=>{setSearchInputValue(e.target.value)}} placeholder="Search Input" className=" px-1 md:px-2 py-1 w-full rounded-lg bg-transparent border border-gray-500 text-sm" name="songName"/>
             </form>
             <i className="ri-close-fill" onClick={()=>{
-              setSearchToggle(prev=>!prev);
+              setSearchToggle(true);
               clearTimeout(searchTimeOutFunc);
               }}></i>
             </>)}
@@ -72,11 +95,25 @@ function Menu() {
           </div>
           <i className="ri-add-line text-lg md:text-xl cursor-pointer"></i>
         </div>
-        <div className="scroll flex flex-col gap-2 h-full lg:h-[110px] overflow-scroll overflow-x-hidden scroll-smooth">
+        <div className="scroll flex flex-col gap-2 h-[150px] lg:h-[110px] overflow-scroll overflow-x-hidden scroll-smooth">
           <div className="bg-[#242424] rounded-lg py-3 lg:py-4 px-4 lg:px-6">
             <div className="text-[12px] md:text-sm mb-1 font-semibold">Create your first playlist</div>
             <p className="text-[10px] md:text-xs mb-2">It's easy, we'll help you</p>
-            <button className="rounded-3xl bg-white text-black text-xs md:text-sm font-semibold md:font-bold px-2 lg:px-3 py-1 w-fit">Create Playlist</button>
+            {!createPlaylistToggle ? (<>
+            
+            <button className="rounded-3xl bg-white text-black text-xs md:text-sm font-semibold md:font-bold px-2 lg:px-3 py-1 w-fit" onClick={()=>{
+              if(loginStatus === true){
+                setSearchToggle(true);
+                setCreatePlaylistToggle(true);
+              };
+              }}>Create Playlist</button>
+            </>) : (<>
+            <form className="flex flex-col md:flex-row gap-2 w-full" onSubmit={createPlaylistEventHandler}>
+              <input type="text" className="px-2 py-1 w-full rounded-lg outline-none text-black text-sm placeholder:text-sm" placeholder="playlist name" name="playlistName"/>
+              <input type="submit" value="Create" className="text-xs px-2 py-1 border rounded-lg hover:scale-[1.04]"/>
+              <button className="text-xs px-2 py-1 border rounded-lg hover:scale-[1.04]" onClick={()=>{setCreatePlaylistToggle(false)}}>Cancel</button>
+            </form>
+            </>)}
           </div>
           <div className="bg-[#242424] rounded-lg py-3 lg:py-4 px-4 lg:px-6">
             <div className="text-[12px] md:text-sm mb-1 font-semibold">Let’s find some created playlist</div>

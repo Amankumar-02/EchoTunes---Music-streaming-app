@@ -20,7 +20,7 @@ function AlbumCard({item}) {
           />
         </div>
         <div className="flex flex-col gap-1 md:gap-2 my-2 px-1">
-          <h2>{item.folderName}</h2>
+          <h2 style={{overflowWrap: "anywhere"}}>{item.folderName} <span className="text-gray-400 text-xs">{item?.songs.length ? ' - ('+item?.songs.length+')' : null}</span></h2>
         </div>
       </div>
     </div>

@@ -163,8 +163,8 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
           </div>
         </div>
         <div className="flex flex-col gap-1 md:gap-2 my-2 px-1">
-          <h2>{item.title}</h2>
-          <p className="max-h-[30px] md:max-h-[40px] overflow-hidden text-xs md:text-sm text-gray-400">
+          <h2 style={{overflowWrap: "anywhere"}}>{item.title}</h2>
+          <p className="max-h-[30px] md:max-h-[40px] overflow-hidden text-xs md:text-sm text-gray-400" style={{overflowWrap: "anywhere"}}>
             {item.desc}
           </p>
         </div>

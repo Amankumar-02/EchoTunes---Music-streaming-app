@@ -217,9 +217,9 @@ function UserProfile() {
         </>
       ) : (
         <>
-          <div className="flex gap-10 items-center px-10 py-10">
-            <div className="leftSection flex flex-col items-center gap-4 justify-center w-[200px]">
-              <div className="relative h-[150px] w-[150px] rounded-full overflow-hidden border border-gray-700">
+          <div className="flex gap-4 md:gap-10 items-center p-4 md:p-10">
+            <div className="leftSection flex flex-col items-center gap-4 justify-center w-[100px] md:w-[200px]">
+              <div className="relative h-[100px] md:h-[150px] w-[100px] md:w-[150px] rounded-full overflow-hidden border border-gray-700">
                 {userData?.coverimage ? (
                   <>
                     <img src={userData?.coverimage} alt="" />
@@ -254,7 +254,7 @@ function UserProfile() {
                 onSubmit={editCoverImgEventHandler}
                 className={`${
                   editCoverImgToggle ? "inline-block" : "hidden"
-                } flex w-[200px]`}
+                } flex w-[100px] md:w-[200px]`}
               >
                 <input
                   type="url"
@@ -269,21 +269,21 @@ function UserProfile() {
                 <input
                   type="submit"
                   value="Save"
-                  className="text-black px-2 py-1 rounded-lg rounded-s-none bg-gray-300 hover:font-semibold"
+                  className="text-sm md:text-base text-black px-2 py-1 rounded-lg rounded-s-none bg-gray-300 hover:font-semibold"
                 />
               </form>
               </div>
             </div>
 
             <div
-              className="rightSection flex flex-col gap-8"
-              style={{ width: "calc(100% - 200px)" }}
+              className="rightSection flex flex-col gap-2 md:gap-8 w-full"
+              // style={{ width: "calc(100% - 200px)" }}
             >
               {!editDetsToggle ? (
                 <>
                   <div>
-                    <h3 className="text-sm">{userData.username}</h3>
-                    <h1 className="text-3xl font-semibold -tracking-tight">
+                    <h3 className="text-xs md:text-sm" style={{overflowWrap: "anywhere"}}>{userData.username}</h3>
+                    <h1 className="text-lg md:text-3xl font-semibold -tracking-tight" style={{overflowWrap: "anywhere"}}>
                       {userData.fullname}
                     </h1>
                   </div>
@@ -291,7 +291,7 @@ function UserProfile() {
                     <>
                       <div className="flex items-center gap-4">
                         <button
-                          className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
+                          className="text-sm md:text-base w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
                           onClick={() => {
                             setEditPasswordToggle(false);
                             setAddMediaToggle(false);
@@ -302,7 +302,7 @@ function UserProfile() {
                           Edit
                         </button>
                         <button
-                          className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
+                          className="text-sm md:text-base w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
                           onClick={() => {
                             setEditDetsToggle(false);
                             setAddMediaToggle(false);
@@ -318,8 +318,8 @@ function UserProfile() {
                 </>
               ) : (
                 <>
-                  <div className="w-1/3">
-                  <h2 className="mb-2 text-gray-400">Set New Username & Fullname</h2>
+                  <div className="w-[80%] md:w-1/3">
+                  <h2 className="mb-2 text-gray-400 text-sm md:text-base">Set New Username & Fullname</h2>
                     <form
                       className="flex flex-col w-full gap-2"
                       onSubmit={editDetsEventHandler}
@@ -342,20 +342,20 @@ function UserProfile() {
                           setNewUserFullname(e.target.value);
                         }}
                         name="fullname"
-                        className="outline-none rounded-lg py-2 px-3 text-black text-xl placeholder:text-xl"
+                        className="outline-none rounded-lg py-1 md:py-2 px-2 md:px-3 text-black text-xl placeholder:text-xl"
                       />
-                      <input type="submit" value="" className="hidded" />
+                      <input type="submit" value="" className="hidden" />
                     </form>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 md:gap-4">
                     <button
-                      className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
+                      className="text-sm md:text-base w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
                       onClick={editDetsEventHandler}
                     >
                       Save
                     </button>
                     <button
-                      className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
+                      className="text-sm md:text-base w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
                       onClick={() => {
                         setEditDetsToggle(false);
                       }}
@@ -368,12 +368,12 @@ function UserProfile() {
               {!editPasswordToggle ? null : (
                 <>
                   <div>
-                    <h2 className="mb-2 text-gray-400">Set New Password</h2>
+                    <h2 className="mb-2 text-gray-400 text-sm md:text-base">Set New Password</h2>
                     <form
                       onSubmit={updateCurrentPasswordEventHandler}
-                      className="flex flex-col gap-4 w-[80%]"
+                      className="flex flex-col gap-2 md:gap-4 md:w-[80%]"
                     >
-                      <div className="flex gap-2 items-center">
+                      <div className="flex flex-col md:flex-row gap-2 items-center">
                         <input
                           type="password"
                           placeholder="old password"
@@ -434,7 +434,7 @@ function UserProfile() {
                   <>
                     <div className="flex items-center gap-4 mt-4">
                       <button
-                        className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]"
+                        className="text-sm md:text-base w-fit border px-2 md:px-4 py-1 rounded-lg hover:scale-[1.05]"
                         onClick={() => {
                           setEditDetsToggle(false);
                           setEditCoverImgToggle(false);
@@ -444,7 +444,7 @@ function UserProfile() {
                       >
                         Add Media
                       </button>
-                      <button className="w-fit border px-4 py-1 rounded-lg hover:scale-[1.05]" onClick={refreshMediaEventHandler}>
+                      <button className="text-sm md:text-base w-fit border px-2 md:px-4 py-1 rounded-lg hover:scale-[1.05]" onClick={refreshMediaEventHandler}>
                         Refresh Media
                       </button>
                     </div>
@@ -455,9 +455,9 @@ function UserProfile() {
                       <h2 className="mb-2 text-gray-400">Add Media File</h2>
                       <form
                         onSubmit={addMediaEventHandler}
-                        className="flex flex-col gap-4 w-[80%]"
+                        className="flex flex-col gap-2 md:gap-4 w-full"
                       >
-                        <div className="flex gap-2 items-center">
+                        <div className="flex flex-col md:flex-row gap-2 items-center">
                           <input
                             type="file"
                             accept=".mp3"
@@ -475,7 +475,7 @@ function UserProfile() {
                             required
                           />
                         </div>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex flex-col md:flex-row gap-2 items-center">
                           <input
                             type="text"
                             name="newMediaTitle"

@@ -47,7 +47,7 @@ export const soloCreatePlaylist = AsyncHandler(async (req, res) => {
     };
     const result = await Playlist.create({
         playlistTitle: playlistName,
-        coverImg: "https://notionthings.com/wp-content/uploads/2021/01/Random-Cover-Image-on-Page-Refresh-7-1024x680.jpeg",
+        coverImg: "noImg",
         owner: req.user?._id,
     })
     if (!result) {
