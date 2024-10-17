@@ -22,4 +22,6 @@ let links = [
 ]
 let menuLinks = ["Legal", "Safety & Privacy Center", "Privacy Policy", "Cookies", "About Ads", "Accessibility"]
 
-export { links, menuLinks }
+const serverURL = "http://localhost:3000/";
+
+export { links, menuLinks, serverURL }

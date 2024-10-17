@@ -13,6 +13,7 @@ import {
 } from "../../features/customStates/customStates";
 import { AudioContext } from "../../context/audioContext";
 import { setPlayerSongs } from "../../features/test/test";
+import { serverURL } from "../../utils";
 
 function SearchedMediaFile() {
   const { searchName } = useParams();
@@ -30,7 +31,7 @@ function SearchedMediaFile() {
     const searchedData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3000/media/findSong",
+          `${serverURL}media/findSong`,
           { songName: searchName },
           {
             headers: {

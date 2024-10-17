@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "remixicon/fonts/remixicon.css";
 import axios from "axios";
+import { serverURL } from "../../utils";
 
 function UserPlaylistCard({ item, setUpdates }) {
   console.log(item)
@@ -25,7 +26,7 @@ function UserPlaylistCard({ item, setUpdates }) {
   const editPlaylistNameEventHandler = async (playlistIdd) => {
     try {
       const response = await axios.patch(
-        "http://localhost:3000/savedPlaylist/editPlaylistName",
+        `${serverURL}savedPlaylist/editPlaylistName`,
         {
           playlistId: playlistIdd,
           newPlaylistTitle: inputValue,
@@ -51,7 +52,7 @@ function UserPlaylistCard({ item, setUpdates }) {
   const deletePlaylistNameEventHandler = async (playlistIdd) => {
     try {
       const response = await axios.delete(
-        "http://localhost:3000/savedPlaylist/deletePlaylist",
+        `${serverURL}savedPlaylist/deletePlaylist`,
         {
           data: { playlistId: playlistIdd },
           headers: {

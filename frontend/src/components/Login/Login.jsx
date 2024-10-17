@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoginStatus } from "../../features/customStates/customStates";
+import { serverURL } from "../../utils";
 
 function Login() {
   const { loginStatus } = useSelector((state) => state.customState);
@@ -14,7 +15,7 @@ function Login() {
     const data = Object.fromEntries(formData.entries());
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/userlogin",
+        `${serverURL}auth/userlogin`,
         data,
         {
           headers: {

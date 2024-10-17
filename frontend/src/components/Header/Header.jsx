@@ -1,5 +1,6 @@
 import React from "react";
 import "remixicon/fonts/remixicon.css";
+import { serverURL } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setLoginStatus,
@@ -28,7 +29,7 @@ function Header() {
   const logoutEventHandler = async (e) => {
     e.preventDefault();
     try {
-      await axios.get("http://localhost:3000/auth/userlogout", {
+      await axios.get(`${serverURL}auth/userlogout`, {
         headers: {
           "Content-Type": "application/json",
         },

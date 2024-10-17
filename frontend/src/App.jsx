@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import "remixicon/fonts/remixicon.css";
+import { serverURL } from "./utils";
 import { Outlet } from "react-router-dom";
 import { fetchData, formatTime } from "./customHooks";
 import { Menu, MusicPlayer, Header, Footer } from "./components/index";
@@ -30,12 +31,12 @@ function App() {
   // get data from server
   useEffect(() => {
     const fetch = async () => {
-      const songs = await fetchData("http://localhost:3000/media/songs/");
+      const songs = await fetchData(`${serverURL}media/songs/`);
       if (songs) {
         dispatch(setSongs(songs));
         dispatch(setPlayerSongs(songs));
       }
-      const albums = await fetchData("http://localhost:3000/media/albums/");
+      const albums = await fetchData(`${serverURL}media/albums/`);
       if (albums) {
         dispatch(setAlbums(albums));
       }
@@ -90,7 +91,7 @@ function App() {
     const checkUserLogin = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/auth/checkUserLoginOrNot",
+        `${serverURL}auth/checkUserLoginOrNot`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -13,6 +13,7 @@ import {
 } from "../../features/customStates/customStates";
 import { AudioContext } from "../../context/audioContext";
 import { setPlayerSongs } from "../../features/test/test";
+import { serverURL } from "../../utils";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function UserProfile() {
     const checkUserLogin = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/auth/loginUserDets",
+          `${serverURL}auth/loginUserDets`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -96,7 +97,7 @@ function UserProfile() {
         fullname: newUserFullname,
       };
       const response = await axios.patch(
-        "http://localhost:3000/auth/updatedetails",
+        `${serverURL}auth/updatedetails`,
         data,
         {
           headers: {
@@ -120,7 +121,7 @@ function UserProfile() {
         coverimage: newCoverImg,
       };
       const response = await axios.patch(
-        "http://localhost:3000/auth/updateCoverImage",
+        `${serverURL}auth/updateCoverImage`,
         data,
         {
           headers: {
@@ -147,7 +148,7 @@ function UserProfile() {
         confirmPassword: inputConfirmPassword,
       };
       const response = await axios.patch(
-        "http://localhost:3000/auth/changeCurrent",
+        `${serverURL}auth/changeCurrent`,
         data,
         {
           headers: {
@@ -173,7 +174,7 @@ function UserProfile() {
     const data = Object.fromEntries(formData.entries());
     try {
       const response = await axios.post(
-        "http://localhost:3000/media/addMedia",
+        `${serverURL}media/addMedia`,
         data,
         {
           headers: {
@@ -193,7 +194,7 @@ function UserProfile() {
     console.log("clicked")
     try {
       const response = await axios.get(
-        "http://localhost:3000/media/updateSongs",
+        `${serverURL}media/updateSongs`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

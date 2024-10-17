@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "remixicon/fonts/remixicon.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { serverURL } from "../../utils";
 
 function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null }) {
   const [saveMore, setSaveMore] = useState(false);
@@ -14,7 +15,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/auth/checkUserLoginOrNot",
+          `${serverURL}auth/checkUserLoginOrNot`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/savedPlaylist/createPlaylist",
+        `${serverURL}savedPlaylist/createPlaylist`,
         data,
         {
           headers: {
@@ -69,7 +70,7 @@ function SongCard({ item, index, playBtn, currentSong, setSongEditStatus=null })
   const removePlaylistSongEventHandler = async (songIdd) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/savedPlaylist/removeSong",
+        `${serverURL}savedPlaylist/removeSong`,
         { songId: songIdd },
         {
           headers: {

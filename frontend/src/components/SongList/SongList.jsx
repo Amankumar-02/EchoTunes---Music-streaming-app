@@ -14,6 +14,7 @@ import {
 import { SongCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
 import { useParams } from "react-router-dom";
+import { serverURL } from "../../utils";
 
 function SongList() {
   // accessing the url params
@@ -33,7 +34,7 @@ function SongList() {
   useEffect(() => {
     setTimeout(()=>{
       const fetch = async () => {
-        const songs = await fetchDataWithoutShuffle(`http://localhost:3000/media/find/${songName}`);
+        const songs = await fetchDataWithoutShuffle(`${serverURL}media/find/${songName}`);
         if (songs) {
           dispatch(setPlayerSongs(songs.songs));
           dispatch(setCurrentIndex(0))

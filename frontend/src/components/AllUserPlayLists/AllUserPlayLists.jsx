@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { serverURL } from "../../utils";
 import { UserPlaylistCard } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,7 +14,7 @@ function AllUserPlayLists() {
     useEffect(()=>{
         const fetch = async ()=>{
             try {
-                const response = await axios.get("http://localhost:3000/savedPlaylist/allPlaylists", {
+                const response = await axios.get(`${serverURL}savedPlaylist/allPlaylists`, {
                   headers: {
                     "Content-Type": "application/json",
                   },

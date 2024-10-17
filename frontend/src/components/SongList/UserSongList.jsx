@@ -15,6 +15,7 @@ import { SongCard, Shimmer } from "../index";
 import { AudioContext } from "../../context/audioContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { serverURL } from "../../utils";
 
 function UserSongList() {
   // accessing the url params
@@ -39,7 +40,7 @@ function UserSongList() {
       const fetch = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/savedPlaylist/playlist/${songName}`,
+            `${serverURL}savedPlaylist/playlist/${songName}`,
             {
               headers: {
                 "Content-Type": "application/json",
