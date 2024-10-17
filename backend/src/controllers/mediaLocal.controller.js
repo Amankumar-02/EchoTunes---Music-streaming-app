@@ -42,8 +42,8 @@ export const mediaSongs = AsyncHandler(async (req, res) => {
                 let img = jpgFile.find(image => image.startsWith(baseName)) || jpgFile[0] || '';
 
                 final.push({
-                    media: `http://localhost:3000/media/${file}/${file2}`,
-                    img: `http://localhost:3000/media/${file}/${img}`,
+                    media: `${process.env.MAIN_URL}media/${file}/${file2}`,
+                    img: `${process.env.MAIN_URL}media/${file}/${img}`,
                     title: baseName.split(" - ")[0] || "Title not found",
                     desc: baseName.split(" - ")[1] || "Desc not found",
                     size: (stats.size / (1024 * 1024)).toFixed(2) + " MB",
@@ -80,7 +80,7 @@ export const mediaAlbum = AsyncHandler(async (req, res) => {
             const jpgFile = songs.filter(item => item.includes(".jpg"));
             return {
                 folderName: file,
-                img: `http://localhost:3000/media/${file}/${jpgFile[0]}`,
+                img: `${process.env.MAIN_URL}media/${file}/${jpgFile[0]}`,
             }
         }));
         // mapped array
@@ -113,8 +113,8 @@ export const findSongs = AsyncHandler(async (req, res) => {
                 const baseName = file2.split('.')[0];
                 let img = jpgFile.find(image => image.startsWith(baseName)) || jpgFile[0] || '';
                 return {
-                    media: `http://localhost:3000/media/${file}/${file2}`,
-                    img: `http://localhost:3000/media/${file}/${img}`,
+                    media: `${process.env.MAIN_URL}media/${file}/${file2}`,
+                    img: `${process.env.MAIN_URL}media/${file}/${img}`,
                     title: baseName.split(" - ")[0] || "Title not found",
                     desc: baseName.split(" - ")[1] || "Desc not found",
                     size: (stats.size / (1024 * 1024)).toFixed(2) + " MB",
@@ -124,7 +124,7 @@ export const findSongs = AsyncHandler(async (req, res) => {
             }));
             return {
                 folderName: file,
-                img: `http://localhost:3000/media/${file}/${jpgFile[0]}`,
+                img: `${process.env.MAIN_URL}media/${file}/${jpgFile[0]}`,
                 songs: fileDetails2
             }
         }));
