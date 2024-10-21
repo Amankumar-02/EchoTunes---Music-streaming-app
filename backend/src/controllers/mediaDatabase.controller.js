@@ -43,7 +43,7 @@ export const updateSongs = AsyncHandler(async (req, res) => {
             if (!albumData) {
                 albumData = await Album.create({
                     folderName: folder,
-                    img: jpgFiles[0] ? `${process.env.MAIN_URL}media/${folder}/${jpgFiles[0]}` : ''
+                    img: jpgFiles[0] ? `${process.env.MAIN_URL}media/${folder}/${jpgFiles.find(item => item.includes(folder))}` : ``
                 });
                 fetchAlbums.push(albumData);
             }
@@ -81,7 +81,7 @@ export const updateSongs = AsyncHandler(async (req, res) => {
             }
         };
 
-        const filteredFiles = files.filter(elem=>elem !== "New");
+        const filteredFiles = files.filter(elem => elem !== "New");
         await Promise.all(filteredFiles.map(processFolder));
 
         res.status(200).json(new ApiResponse(200, { songs: fetchSongs, albums: fetchAlbums }, "All Songs"));
@@ -92,10 +92,10 @@ export const updateSongs = AsyncHandler(async (req, res) => {
 });
 
 // fetch all songs from database
-export const fetchSongs = AsyncHandler(async(req, res)=>{
+export const fetchSongs = AsyncHandler(async (req, res) => {
     try {
         const songs = await Song.find().populate("albumId");
-        if(songs){
+        if (songs) {
             return res.status(200).json(new ApiResponse(200, songs, "All Songs"))
         }
         return res.status(400).json(new ApiError(400, "Songs not found"))
@@ -105,10 +105,10 @@ export const fetchSongs = AsyncHandler(async(req, res)=>{
 })
 
 // fetch all album from database
-export const fetchAlbums = AsyncHandler(async(req, res)=>{
+export const fetchAlbums = AsyncHandler(async (req, res) => {
     try {
         const albums = await Album.find().populate("songs");
-        if(albums){
+        if (albums) {
             return res.status(200).json(new ApiResponse(200, albums, "All Albums"))
         }
         return res.status(400).json(new ApiError(400, "Albums not found"))
@@ -137,15 +137,15 @@ export const findAlbum = AsyncHandler(async (req, res) => {
 })
 
 // find song
-export const findSong = AsyncHandler(async(req, res)=>{
-    const {songName} = req.body;
-    const song = await Song.find({title : new RegExp(`${songName}`, 'i')});
-    const album = await Album.find({folderName : new RegExp(`${songName}`, 'i')});
-    const playlist = await Playlist.find({playlistTitle : new RegExp(`${songName}`, 'i'), owner: req.user?._id});
-    if(!song && !album && !playlist){
+export const findSong = AsyncHandler(async (req, res) => {
+    const { songName } = req.body;
+    const song = await Song.find({ title: new RegExp(`${songName}`, 'i') });
+    const album = await Album.find({ folderName: new RegExp(`${songName}`, 'i') });
+    const playlist = await Playlist.find({ playlistTitle: new RegExp(`${songName}`, 'i'), owner: req.user?._id });
+    if (!song && !album && !playlist) {
         return res.status(400).json(new ApiError(400, "not found"));
     };
-    return res.status(200).json(new ApiResponse(200, {songs: song.length!==0? song : null, albums: album.length!==0? album : null, playlists: playlist.length!==0? playlist : null}, "Found"))
+    return res.status(200).json(new ApiResponse(200, { songs: song.length !== 0 ? song : null, albums: album.length !== 0 ? album : null, playlists: playlist.length !== 0 ? playlist : null }, "Found"))
 });
 
 // add new song 
@@ -192,6 +192,12 @@ export const addSong = AsyncHandler(async (req, res) => {
                 const destPath = path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}${extName}`);
                 await fs.rename(srcPath, destPath);
             }
+
+            const originalFilePath = path.join(destDir, `${newMediaTitle} - ${newMediaTitleDesc}.jpg`);
+            const newFilePath = path.join(destDir, `${newMediaAlbum}.jpg`);
+            await fs.copyFile(originalFilePath, newFilePath);
+
+            console.log(`File copied and renamed to ${newMediaAlbum}.jpg`);
             console.log('Files moved successfully');
         } catch (err) {
             console.error('Error creating folder or moving files:', err);

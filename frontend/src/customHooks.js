@@ -37,8 +37,6 @@ export const formatTime = (time) => {
 };
 
 
-
-
 // Fetch data from local
 //   useEffect(() => {
 //     const fetchData = async () => {

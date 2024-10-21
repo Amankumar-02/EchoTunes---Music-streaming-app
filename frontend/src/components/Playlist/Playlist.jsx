@@ -23,11 +23,11 @@ function Playlist() {
   const currentSong = useSelector((state) => state.customState.currentSong);
 
   // setPlayerSongs with fetched songs
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(setPlayerSongs(songs));
     dispatch(setCurrentIndex(0));
-  }, [])
-  
+  }, []);
+
   // get audio file from playerSongs
   // audio play handler 1of3
   const playBtn = (title, index = 0) => {
@@ -53,16 +53,16 @@ function Playlist() {
     <>
       {playerSongs.length <= 0 ? (
         <>
-        <Shimmer/>
+          <Shimmer />
         </>
       ) : (
         <div id="section1">
-          <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
-            <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">
+          <div className="title bg-[#1C1C1C] px-4 py-2 md:px-6 md:py-4">
+            <h1 className="text-lg md:text-2xl font-bold mt-2 md:mt-4">
               EchoTunes Musics
             </h1>
           </div>
-          <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+          <div className="list cards flex flex-wrap bg-[#1C1C1C] gap-4 px-4 py-4 md:px-6">
             {playerSongs.slice(0, 9).map((item, index) => (
               <SongCard
                 key={index}
@@ -77,16 +77,16 @@ function Playlist() {
       )}
       {albums.length <= 0 ? (
         <>
-        <Shimmer/>
+          <Shimmer />
         </>
       ) : (
         <div id="section2">
-          <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
-            <h1 className="text-xl md:text-2xl font-bold mt-2 md:mt-4">
+          <div className="title bg-[#1C1C1C] px-4 py-2 md:px-6 md:py-4">
+            <h1 className="text-lg md:text-2xl font-bold mt-2 md:mt-4">
               EchoTunes Playlists
             </h1>
           </div>
-          <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+          <div className="list cards flex flex-wrap bg-[#1C1C1C] gap-4 px-4 py-4 md:px-6">
             {albums.map((item, index) => (
               <AlbumCard key={index} item={item} />
             ))}

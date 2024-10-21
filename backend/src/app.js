@@ -18,8 +18,16 @@ app.use(session({
 }));
 app.use(flash());
 
+
+const allowedOrigins = ['https://echo-tunes-frontend-ui.vercel.app', 'http://localhost:5173'];
 app.use(cors({
-    origin: [process.env.ORIGIN],
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true
 }));
@@ -36,6 +44,7 @@ import {playlistRouter} from './routes/playlists.route.js';
 app.get("/", (req, res)=>{
     res.send("Hello World")
 })
+
 app.use('/auth/', userRouter);
 app.use('/media', mediaRouter);
 app.use('/savedPlaylist', playlistRouter);

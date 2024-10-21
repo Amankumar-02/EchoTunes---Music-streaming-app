@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import "remixicon/fonts/remixicon.css";
-import { serverURL } from "./utils";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Outlet } from "react-router-dom";
 import { fetchData, formatTime } from "./customHooks";
 import { Menu, MusicPlayer, Header, Footer } from "./components/index";
@@ -31,12 +32,12 @@ function App() {
   // get data from server
   useEffect(() => {
     const fetch = async () => {
-      const songs = await fetchData(`${serverURL}media/songs/`);
+      const songs = await fetchData(`${import.meta.env.VITE_API_SERVER_URL}media/songs/`);
       if (songs) {
         dispatch(setSongs(songs));
         dispatch(setPlayerSongs(songs));
       }
-      const albums = await fetchData(`${serverURL}media/albums/`);
+      const albums = await fetchData(`${import.meta.env.VITE_API_SERVER_URL}media/albums/`);
       if (albums) {
         dispatch(setAlbums(albums));
       }
@@ -91,7 +92,7 @@ function App() {
     const checkUserLogin = async () => {
     try {
       const response = await axios.get(
-        `${serverURL}auth/checkUserLoginOrNot`,
+        `${import.meta.env.VITE_API_SERVER_URL}auth/checkUserLoginOrNot`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -102,18 +103,30 @@ function App() {
       dispatch(setLoginStatus(response.data.data.status));
       console.log(response.data.message)
     } catch (error) {
-      console.log("Error:", error);
+      console.log("Error:", error.response.data.message);
     }}
     checkUserLogin();
 }, [])
 
   return (
     <>
-      <div className="w-full flex">
+    <ToastContainer
+      position="top-right"
+      theme="dark"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+      <div className="w-full flex overflow-hidden" style={{height: "calc(100vh - 120px)"}}>
         <Menu />
-        <div className="w-full md:w-[75vw] h-[77vh] overflow-hidden m-2 md:ms-0 bg-[#1C1C1C] rounded-lg">
+        <div className="w-full md:w-[75vw] overflow-hidden m-2 md:ms-0 bg-[#1C1C1C] rounded-lg">
           <Header />
-          <div id="scrollComponent" className="scroll h-[92%] md:h-[86%] overflow-scroll overflow-x-hidden">
+          <div id="scrollComponent" className="scroll h-[92%] md:h-[84%] overflow-scroll overflow-x-hidden">
             <Outlet />
             <Footer />
           </div>

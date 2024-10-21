@@ -13,7 +13,6 @@ import {
 } from "../../features/customStates/customStates";
 import { AudioContext } from "../../context/audioContext";
 import { setPlayerSongs } from "../../features/test/test";
-import { serverURL } from "../../utils";
 
 function SearchedMediaFile() {
   const { searchName } = useParams();
@@ -31,7 +30,7 @@ function SearchedMediaFile() {
     const searchedData = async () => {
       try {
         const response = await axios.post(
-          `${serverURL}media/findSong`,
+          `${import.meta.env.VITE_API_SERVER_URL}media/findSong`,
           { songName: searchName },
           {
             headers: {
@@ -74,21 +73,22 @@ function SearchedMediaFile() {
   return (
     <>
       {!songs && !albums && !playlists ? (
-        <div className="flex items-center justify-center pt-20">
-          Nothing Found
-        </div>
+        <div className="flex flex-col gap-4 pt-20 h-[60vh] items-center justify-center">
+        <img src="https://thumbs.dreamstime.com/b/no-found-symbol-unsuccessful-search-vecotr-upset-magnifying-glass-cute-not-zoom-icon-suitable-results-oops-page-failure-122786031.jpg" alt="" className="w-[160px] md:w-[180px] lg:w-[200px] h-[160px] md:h-[180px] lg:h-[200px] object-cover rounded-lg"/>
+        <h1 className="text-base md:text-lg">Nothing Found</h1>
+      </div>
       ) : (
         <div className="">
           {!songs ? null : (
             <>
               <div id="section11">
-                <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
+                <div className="title bg-[#1C1C1C] px-4 py-2 md:px-6 md:py-4">
                   <h1 className="font-bold mt-2 md:mt-4">
                     Search &gt; Songs &gt;{" "}
                     <span className="underline">{searchName}</span>
                   </h1>
                 </div>
-                <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+                <div className="list cards flex flex-wrap bg-[#1C1C1C] gap-4 px-4 py-4 md:px-6">
                   {songs.map((item, index) => (
                     <SongCard
                       key={index}
@@ -105,13 +105,13 @@ function SearchedMediaFile() {
           {!albums ? null : (
             <>
               <div id="section12">
-                <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
+                <div className="title bg-[#1C1C1C] px-4 py-2 md:px-6 md:py-4">
                   <h1 className="font-bold mt-2 md:mt-4">
                     Search &gt; Albums &gt;{" "}
                     <span className="underline">{searchName}</span>
                   </h1>
                 </div>
-                <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+                <div className="list cards flex flex-wrap bg-[#1C1C1C] gap-4 px-4 py-4 md:px-6">
                   {albums.map((item, index) => (
                     <AlbumCard key={index} item={item} />
                   ))}
@@ -121,20 +121,21 @@ function SearchedMediaFile() {
           )}
           {loginStatus === false || !playlists ? 
           (<>{songs || albums ? null : (<>
-            <div className="flex pt-20 items-center justify-center">
-              Please Login First
-            </div>
+            <div className="flex flex-col gap-4 pt-20 h-[60vh] items-center justify-center">
+            <img src="https://www.londonappbrewery.com/wp-content/uploads/2016/05/no-Login-min.png" alt="" className="w-[160px] md:w-[180px] lg:w-[200px] h-[160px] md:h-[180px] lg:h-[200px] object-cover rounded-lg"/>
+            <h1 className="text-base md:text-lg">Please Login First</h1>
+          </div>
           </>)}</>)
            : (
             <>
               <div id="section13">
-                <div className="title bg-[#1C1C1C] px-6 py-2 md:py-4">
+                <div className="title bg-[#1C1C1C] px-4 py-2 md:px-6 md:py-4">
                   <h1 className="font-bold mt-2 md:mt-4">
                     Search &gt; User Playlist &gt;{" "}
                     <span className="underline">{searchName}</span>
                   </h1>
                 </div>
-                <div className="md:ps-2 list cards flex flex-wrap bg-[#1C1C1C]">
+                <div className="list cards flex flex-wrap bg-[#1C1C1C] gap-4 px-4 py-4 md:px-6">
                   {playlists.map((item, index) => (
                     <UserPlaylistCard key={index} item={item} setUpdates={setUpdates}/>
                   ))}

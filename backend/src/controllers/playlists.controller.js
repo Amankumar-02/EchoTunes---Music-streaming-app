@@ -35,7 +35,7 @@ export const createPlaylist = AsyncHandler(async (req, res) => {
             $addToSet: { playlists: result._id, songs: songId }
         })
     }
-    return res.status(200).json(new ApiResponse(200, result, "playlist created successfully"))
+    return res.status(200).json(new ApiResponse(200, result, "playlist created & song is added successfully"))
 });
 
 // create when create playlist btn trigger
@@ -63,7 +63,7 @@ export const soloCreatePlaylist = AsyncHandler(async (req, res) => {
 export const allPlaylists = AsyncHandler(async (req, res) => {
     const playLists = await Playlist.find();
     if (!playLists || playLists.length === 0) {
-        return res.status(400).json(new ApiError(400, "Playlists not found"));
+        return res.status(200).json(new ApiResponse(200, null, "Playlists not found"));
     }
     const filteredUsers = playLists.filter(elem => elem.owner.toString() === req.user?._id.toString());
     return res.status(200).json(new ApiResponse(200, filteredUsers, "All playlists"))
