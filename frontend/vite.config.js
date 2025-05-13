@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
         proxy: {
-            // "/api": "https://echo-tunes-backend-server.vercel.app",
-            "/api": "https://echotunes-backend-server.onrender.com",
+            // "/api": "backend-server.onrender.com",
+            "/api": "http://localhost:3000",
         },
     },
   plugins: [react()],
