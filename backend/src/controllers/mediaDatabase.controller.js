@@ -4,6 +4,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { Song } from '../models/songs.model.js';
 import { Album } from '../models/albums.model.js';
 import { Playlist } from '../models/playlists.model.js';
+import { MAIN_URL } from '../utils.js';
 import fs from 'fs/promises';
 import fss from 'fs';
 import path from 'path';
@@ -43,13 +44,13 @@ export const updateSongs = AsyncHandler(async (req, res) => {
             if (!albumData) {
                 albumData = await Album.create({
                     folderName: folder,
-                    img: jpgFiles[0] ? `${process.env.MAIN_URL}media/${folder}/${jpgFiles.find(item => item.includes(folder))}` : ``
+                    img: jpgFiles[0] ? `${MAIN_URL}media/${folder}/${jpgFiles.find(item => item.includes(folder))}` : ``
                 });
                 fetchAlbums.push(albumData);
             }
 
             const songPromises = mp3Files.map(async (mp3File) => {
-                const existingSong = await Song.findOne({ media: `${process.env.MAIN_URL}media/${folder}/${mp3File}` });
+                const existingSong = await Song.findOne({ media: `${MAIN_URL}media/${folder}/${mp3File}` });
                 if (existingSong) return null;
 
                 const filePath = path.join(__dirname, "../../", 'public', 'media', folder, mp3File);
@@ -58,8 +59,8 @@ export const updateSongs = AsyncHandler(async (req, res) => {
                 const img = jpgFiles.find(image => image.startsWith(baseName)) || jpgFiles[0] || '';
 
                 const songData = {
-                    media: `${process.env.MAIN_URL}media/${folder}/${mp3File}`,
-                    img: `${process.env.MAIN_URL}media/${folder}/${img}`,
+                    media: `${MAIN_URL}media/${folder}/${mp3File}`,
+                    img: `${MAIN_URL}media/${folder}/${img}`,
                     title: baseName.split(" - ")[0] || "Title not found",
                     desc: baseName.split(" - ")[1] || "Desc not found",
                     size: (stats.size / (1024 * 1024)).toFixed(2) + " MB",

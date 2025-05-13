@@ -123,7 +123,8 @@ function MusicPlayer() {
   };
   return (
     <>
-      <div className="bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2 absolute bottom-2 left-2 w-[96%] md:w-[98%] h-[110px] z-20">
+      {/* <div className="bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2 absolute bottom-2 left-2 w-[96%] md:w-[98%] h-[110px] z-20"> */}
+      <div className="bg-[#1FDD63] rounded-lg px-4 md:px-10 py-2 w-[97%] md:w-[99%] h-[110px] m-auto z-20">
         <div className="text-center text-black text-base md:text-lg font-semibold w-full md:w-2/3 h-[30px] overflow-hidden m-auto">
           {mediaInfo}
         </div>

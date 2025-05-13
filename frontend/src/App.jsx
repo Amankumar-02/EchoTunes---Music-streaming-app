@@ -19,6 +19,7 @@ import {
 } from "./features/customStates/customStates";
 import { useDispatch, useSelector } from "react-redux";
 import { AudioContext } from "./context/audioContext";
+import { serverURL } from "./utils";
 import axios from "axios";
 
 function App() {
@@ -32,12 +33,12 @@ function App() {
   // get data from server
   useEffect(() => {
     const fetch = async () => {
-      const songs = await fetchData(`${import.meta.env.VITE_API_SERVER_URL}media/songs/`);
+      const songs = await fetchData(`${serverURL}media/songs/`);
       if (songs) {
         dispatch(setSongs(songs));
         dispatch(setPlayerSongs(songs));
       }
-      const albums = await fetchData(`${import.meta.env.VITE_API_SERVER_URL}media/albums/`);
+      const albums = await fetchData(`${serverURL}media/albums/`);
       if (albums) {
         dispatch(setAlbums(albums));
       }
@@ -92,7 +93,7 @@ function App() {
     const checkUserLogin = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_SERVER_URL}auth/checkUserLoginOrNot`,
+        `${serverURL}auth/checkUserLoginOrNot`,
         {
           headers: {
             "Content-Type": "application/json",

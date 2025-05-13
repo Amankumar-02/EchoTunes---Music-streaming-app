@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { serverURL } from "../../utils";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,7 +50,7 @@ function UserProfile() {
   useEffect(() => {
     const checkUserLogin = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_SERVER_URL}auth/loginUserDets`, {
+        const response = await axios.get(`${serverURL}auth/loginUserDets`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -95,7 +96,7 @@ function UserProfile() {
         fullname: newUserFullname,
       };
       const response = await axios.patch(
-        `${import.meta.env.VITE_API_SERVER_URL}auth/updatedetails`,
+        `${serverURL}auth/updatedetails`,
         data,
         {
           headers: {
@@ -121,7 +122,7 @@ function UserProfile() {
         coverimage: newCoverImg,
       };
       const response = await axios.patch(
-        `${import.meta.env.VITE_API_SERVER_URL}auth/updateCoverImage`,
+        `${serverURL}auth/updateCoverImage`,
         data,
         {
           headers: {
@@ -150,7 +151,7 @@ function UserProfile() {
         confirmPassword: inputConfirmPassword,
       };
       const response = await axios.patch(
-        `${import.meta.env.VITE_API_SERVER_URL}auth/changeCurrent`,
+        `${serverURL}auth/changeCurrent`,
         data,
         {
           headers: {
@@ -177,7 +178,7 @@ function UserProfile() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_SERVER_URL}media/addMedia`, data, {
+      const response = await axios.post(`${serverURL}media/addMedia`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -195,7 +196,7 @@ function UserProfile() {
   const refreshMediaEventHandler = async () => {
     // console.log("clicked");
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_SERVER_URL}media/updateSongs`, {
+      const response = await axios.get(`${serverURL}media/updateSongs`, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -237,7 +238,7 @@ function UserProfile() {
                       className={`h-full w-full flex items-center justify-center text-[60px] sm:text-[70px] md:text-[80px]`}
                       style={{ backgroundColor: "#" + randomColor }}
                     >
-                      {userData.fullname?.slice(0, 1)}
+                      {userData?.fullname?.slice(0, 1)}
                     </div>
                   </>
                 )}
@@ -297,13 +298,13 @@ function UserProfile() {
                       className="text-xs sm:text-sm md:text-base text-center md:text-start"
                       style={{ overflowWrap: "anywhere" }}
                     >
-                      {userData.username}
+                      {userData?.username}
                     </h3>
                     <h1
                       className="text-lg sm:text-xl md:text-3xl text-center md:text-start font-semibold -tracking-tight"
                       style={{ overflowWrap: "anywhere" }}
                     >
-                      {userData.fullname}
+                      {userData?.fullname}
                     </h1>
                   </div>
                   {editPasswordToggle ? null : (
@@ -379,8 +380,8 @@ function UserProfile() {
                       className="text-xs sm:text-sm md:text-base w-fit border px-2 py-1 md:px-4 rounded-lg hover:scale-[1.05] active:scale-[0.96]"
                       onClick={() => {
                         setEditDetsToggle(false);
-                        setNewUsername(userData.username);
-                        setNewUserFullname(userData.fullname);
+                        setNewUsername(userData?.username);
+                        setNewUserFullname(userData?.fullname);
                       }}
                     >
                       Close

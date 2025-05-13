@@ -1,6 +1,7 @@
 import createError from 'http-errors';
 import express from 'express';
 import cors from 'cors';
+// import { ORIGIN } from './utils.js';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import session from 'express-session';
@@ -19,8 +20,9 @@ app.use(session({
 app.use(flash());
 
 
-const allowedOrigins = ['https://echo-tunes-frontend-ui.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = ['https://echotunes-ui.vercel.app', 'https://echo-tunes-frontend-ui.vercel.app', 'http://localhost:5173'];
 app.use(cors({
+    // origin: [ORIGIN],
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);

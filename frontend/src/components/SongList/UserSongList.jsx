@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import "remixicon/fonts/remixicon.css";
+import { serverURL } from "../../utils";
 import { fetchDataWithoutShuffle } from "../../customHooks";
 import { useSelector, useDispatch } from "react-redux";
 import { setPlayerSongs } from "../../features/test/test";
@@ -39,7 +40,7 @@ function UserSongList() {
       const fetch = async () => {
         try {
           const response = await axios.get(
-            `${import.meta.env.VITE_API_SERVER_URL}savedPlaylist/playlist/${songName}`,
+            `${serverURL}savedPlaylist/playlist/${songName}`,
             {
               headers: {
                 "Content-Type": "application/json",

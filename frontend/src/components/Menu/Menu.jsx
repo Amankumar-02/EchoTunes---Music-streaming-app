@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "remixicon/fonts/remixicon.css";
-import { menuLinks } from "../../utils";
+import { menuLinks, serverURL } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import { setMenuToggle } from "../../features/customStates/customStates";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +41,7 @@ function Menu() {
     try {
       const data = new FormData(e.target).get("playlistName");
       const response = await axios.post(
-        `${import.meta.env.VITE_API_SERVER_URL}savedPlaylist/soloCreatePlaylist`,
+        `${serverURL}savedPlaylist/soloCreatePlaylist`,
         { playlistName: data },
         {
           headers: {

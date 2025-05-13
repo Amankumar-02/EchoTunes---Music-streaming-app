@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "remixicon/fonts/remixicon.css";
+import { serverURL } from "../../utils";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setLoginStatus,
@@ -27,12 +28,11 @@ function Header() {
   };
 
   const [userData, setUserData] = useState([]);
-  console.log(import.meta.env.VITE_API_SERVER_URL)
   // fetch user Data
   useEffect(() => {
     const checkUserLogin = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_SERVER_URL}auth/loginUserDets`, {
+        const response = await axios.get(`${serverURL}auth/loginUserDets`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -49,7 +49,7 @@ function Header() {
   const logoutEventHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_SERVER_URL}auth/userlogout`, {
+      const response = await axios.get(`${serverURL}auth/userlogout`, {
         headers: {
           "Content-Type": "application/json",
         },

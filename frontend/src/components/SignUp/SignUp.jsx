@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { serverURL } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoginStatus } from "../../features/customStates/customStates";
@@ -16,7 +17,7 @@ function SignUp() {
     const data = Object.fromEntries(formData.entries());
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_SERVER_URL}auth/userregister`,
+        `${serverURL}auth/userregister`,
         data,
         {
           headers: {

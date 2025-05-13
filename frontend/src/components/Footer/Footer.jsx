@@ -40,7 +40,7 @@ function Footer() {
       </div>
       <hr className="border-gray-700" />
       <div className="pt-6 md:pt-12 text-xs md:text-sm lg:text-base text-gray-500 text-center lg:text-left">
-        © 2024 EchoTunes
+        © {new Date().getFullYear()} EchoTunes
       </div>
     </div>
   );

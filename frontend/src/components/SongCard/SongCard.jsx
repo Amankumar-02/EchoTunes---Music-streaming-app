@@ -3,6 +3,7 @@ import "remixicon/fonts/remixicon.css";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { serverURL } from "../../utils";
 import { useSelector } from "react-redux";
 
 function SongCard({
@@ -22,7 +23,7 @@ function SongCard({
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_SERVER_URL}auth/checkUserLoginOrNot`,
+          `${serverURL}auth/checkUserLoginOrNot`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -56,7 +57,7 @@ function SongCard({
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_SERVER_URL}savedPlaylist/createPlaylist`,
+        `${serverURL}savedPlaylist/createPlaylist`,
         data,
         {
           headers: {
@@ -79,7 +80,7 @@ function SongCard({
   const removePlaylistSongEventHandler = async (songIdd) => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_SERVER_URL}savedPlaylist/removeSong`,
+        `${serverURL}savedPlaylist/removeSong`,
         { songId: songIdd },
         {
           headers: {

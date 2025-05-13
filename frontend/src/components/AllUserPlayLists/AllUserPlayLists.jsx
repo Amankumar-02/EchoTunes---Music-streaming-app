@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { serverURL } from "../../utils";
 import { UserPlaylistCard } from "../index";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +13,7 @@ function AllUserPlayLists() {
     const fetch = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_SERVER_URL}savedPlaylist/allPlaylists`,
+          `${serverURL}savedPlaylist/allPlaylists`,
           {
             headers: {
               "Content-Type": "application/json",

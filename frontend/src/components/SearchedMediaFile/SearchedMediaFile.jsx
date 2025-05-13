@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { serverURL } from "../../utils";
 import { useParams } from "react-router-dom";
 import { SongCard, AlbumCard, UserPlaylistCard } from "../index";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +31,7 @@ function SearchedMediaFile() {
     const searchedData = async () => {
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_SERVER_URL}media/findSong`,
+          `${serverURL}media/findSong`,
           { songName: searchName },
           {
             headers: {

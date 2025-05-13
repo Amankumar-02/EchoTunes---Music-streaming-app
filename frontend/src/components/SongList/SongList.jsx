@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import "remixicon/fonts/remixicon.css";
+import { serverURL } from "../../utils";
 import { fetchDataWithoutShuffle } from "../../customHooks";
 import { useSelector, useDispatch } from "react-redux";
 import { setPlayerSongs } from "../../features/test/test";
@@ -34,7 +35,7 @@ function SongList() {
     setTimeout(() => {
       const fetch = async () => {
         const songs = await fetchDataWithoutShuffle(
-          `${import.meta.env.VITE_API_SERVER_URL}media/find/${songName}`
+          `${serverURL}media/find/${songName}`
         );
         if (songs) {
           dispatch(setPlayerSongs(songs.songs));
